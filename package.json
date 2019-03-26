@@ -1,0 +1,35 @@
+{
+  "name": "cpfagora",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "serve": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wellingtonsilverio/cpfagora.git"
+  },
+  "keywords": [
+    "cpf",
+    "cpfagora",
+    "consulta",
+    "consultacpf"
+  ],
+  "author": "Wellington A. A. Silverio",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wellingtonsilverio/cpfagora/issues"
+  },
+  "homepage": "https://github.com/wellingtonsilverio/cpfagora#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongoose": "^5.4.19",
+    "request": "^2.88.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.10"
+  }
+}
