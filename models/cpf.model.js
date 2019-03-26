@@ -7,7 +7,7 @@ const CPFSchema = new mongoose.Schema(
 			required: true
 		},
 	},
-	{ collection: 'cpfs' }
+	{ collection: 'cpfs', timestamps: true }
 );
 
 module.exports = exports = mongoose.model('CPF', CPFSchema);

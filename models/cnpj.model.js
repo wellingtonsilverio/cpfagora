@@ -7,7 +7,7 @@ const CNPJSchema = new mongoose.Schema(
 			required: true
 		},
 	},
-	{ collection: 'cnpjs' }
+	{ collection: 'cnpjs', timestamps: true }
 );
 
 module.exports = exports = mongoose.model('CNPJ', CNPJSchema);

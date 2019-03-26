@@ -4,7 +4,7 @@ var logger = console.log;
 var app = express();
  
 const routes = require('./routes/cpf.route');
-app.route('/:cpfcnpj').get(routes.getCPF);
+app.route('/cpfcnpj/:cpfcnpj').get(routes.getCPF);
 
 app.listen(env.PORT, err => {
 	if (err) {

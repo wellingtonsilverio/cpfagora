@@ -7,7 +7,6 @@ const getCPF = async (req, res) => {
     const cpfcnpj = req.params.cpfcnpj;
 
     const cpf = await validarCPF(cpfcnpj);
-    console.log({cpf});
     if (cpf) {
         CPFModel.findOne({ cpf })
             .then(async (_cpf) => {
@@ -26,7 +25,6 @@ const getCPF = async (req, res) => {
             });
     } else {
         const cnpj = await validarCNPJ(cpfcnpj);
-        console.log({cnpj});
         if (cnpj) {
             CNPJModel.findOne({ cnpj })
             .then(async (_cnpj) => {
@@ -78,7 +76,7 @@ module.exports = {
 };
 
 const validarCPF = (cpf) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         cpf = cpf.replace(/[^\d]+/g, '');
         if (cpf == '') return resolve(false);
         // Elimina CPFs invalidos conhecidos	
@@ -118,7 +116,7 @@ const validarCPF = (cpf) => {
 }
 
 const validarCNPJ = (cnpj) => {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
         cnpj = cnpj.replace(/[^\d]+/g, '');
 
         if (cnpj == '') return resolve(false);
