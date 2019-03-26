@@ -1,5 +1,8 @@
 const CPFModel = require('../models/cpf.model');
 const CNPJModel = require('../models/cnpj.model');
+const response = require('../modules/responses');
+
+const CONTROLLER = 1;
 
 const getCPF = async (req, res) => {
     // Verifica se é CPF ou CNPJ
@@ -10,41 +13,34 @@ const getCPF = async (req, res) => {
     if (cpf) {
         CPFModel.findOne({ cpf })
             .then(async (_cpf) => {
-                if(_cpf) {
-                    res.send(_cpf);
+                if (_cpf) {
+                    response.sucess(res, _cpf);
                 } else {
                     const data = await CPFModel.create({
                         cpf
                     });
-                    res.send(data);
+                    response.sucess(res, data);
                 }
             })
-            .catch((error) => {
-                console.log("error cpf: ", error);
-                res.send(error);
-            });
+            .catch(error => response.error(res, CONTROLLER, 1, error));
     } else {
         const cnpj = await validarCNPJ(cpfcnpj);
         if (cnpj) {
             CNPJModel.findOne({ cnpj })
-            .then(async (_cnpj) => {
-                if(_cnpj) {
-                    res.send(_cnpj);
-                } else {
-                    const data = await CNPJModel.create({
-                        cnpj
-                    });
-                    res.send(data);
-                }
-            })
-            .catch((error) => {
-                console.log("error cnpj: ", error);
-                res.send(error);
-            });
+                .then(async (_cnpj) => {
+                    if (_cnpj) {
+                        response.sucess(res, _cnpj);
+                    } else {
+                        const data = await CNPJModel.create({
+                            cnpj
+                        });
+                        response.sucess(res, data);
+                    }
+                })
+                .catch(error => response.error(res, CONTROLLER, 2, error));
         } else {
             // ERROR
-            console.log("else");
-            res.send("else");
+            response.failure(res, CONTROLLER, 3, { error: "CPF/CNPJ não encontrado ou invalido." });
         }
     }
 
@@ -110,9 +106,9 @@ const validarCPF = (cpf) => {
             rev = 0;
         if (rev != parseInt(cpf.charAt(10)))
             return resolve(false);
-    
+
         return resolve(cpf);
-    }); 
+    });
 }
 
 const validarCNPJ = (cnpj) => {
@@ -120,10 +116,10 @@ const validarCNPJ = (cnpj) => {
         cnpj = cnpj.replace(/[^\d]+/g, '');
 
         if (cnpj == '') return resolve(false);
-    
+
         if (cnpj.length != 14)
             return resolve(false);
-    
+
         // Elimina CNPJs invalidos conhecidos
         if (cnpj == "00000000000000" ||
             cnpj == "11111111111111" ||
@@ -136,7 +132,7 @@ const validarCNPJ = (cnpj) => {
             cnpj == "88888888888888" ||
             cnpj == "99999999999999")
             return resolve(false);
-    
+
         // Valida DVs
         tamanho = cnpj.length - 2
         numeros = cnpj.substring(0, tamanho);
@@ -151,7 +147,7 @@ const validarCNPJ = (cnpj) => {
         resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
         if (resultado != digitos.charAt(0))
             return resolve(false);
-    
+
         tamanho = tamanho + 1;
         numeros = cnpj.substring(0, tamanho);
         soma = 0;
@@ -164,7 +160,7 @@ const validarCNPJ = (cnpj) => {
         resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
         if (resultado != digitos.charAt(1))
             return resolve(false);
-        
+
         return resolve(cnpj);
     });
 }

@@ -3,7 +3,7 @@ var env = require('./config/env');
 var logger = console.log;
 var app = express();
  
-const routes = require('./routes/cpf.route');
+const routes = require('./routes/cpfcnpj.route');
 app.route('/cpfcnpj/:cpfcnpj').get(routes.getCPF);
 
 app.listen(env.PORT, err => {
