@@ -1,6 +1,8 @@
 const CPFModel = require('../models/cpf.model');
 const CNPJModel = require('../models/cnpj.model');
 const response = require('../modules/responses');
+const request = require('request');
+const moment = require('moment');
 
 const CONTROLLER = 1;
 
@@ -16,10 +18,34 @@ const getCPF = async (req, res) => {
                 if (_cpf) {
                     response.sucess(res, _cpf);
                 } else {
-                    const data = await CPFModel.create({
-                        cpf
+                    request(`https://api.cpfcnpj.com.br/52762817d5e97446314cbf2a805980ce/7/json/${cpf}`, async (error, resp) => {
+                        if (error) {
+                            console.log({ error });
+                            res.send({ error });
+                        }
+                        if (resp && resp.statusCode == 200) {
+                            const cpfcnpj = {
+                                ...JSON.parse(resp.body),
+                                cpf
+                            };
+
+                            console.log(cpfcnpj);
+
+                            cpfcnpj.nascimento = moment(cpfcnpj.nascimento, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
+
+                            cpfcnpj.pacoteUsado = undefined;
+                            cpfcnpj.saldo = undefined;
+                            cpfcnpj.consultaID = undefined;
+                            cpfcnpj.delay = undefined;
+
+                            const data = await CPFModel.create(cpfcnpj);
+                            response.sucess(res, data);
+                        }
                     });
-                    response.sucess(res, data);
+                    // const data = await CPFModel.create({
+                    //     cpf
+                    // });
+                    // response.sucess(res, data);
                 }
             })
             .catch(error => response.error(res, CONTROLLER, 1, error));
@@ -31,10 +57,36 @@ const getCPF = async (req, res) => {
                     if (_cnpj) {
                         response.sucess(res, _cnpj);
                     } else {
-                        const data = await CNPJModel.create({
-                            cnpj
+                        request(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`, async (error, resp) => {
+                            if (error) {
+                                console.log({ error });
+                                res.send({ error });
+                            }
+                            if (resp && resp.statusCode == 200) {
+                                const receitaws = {
+                                    ...JSON.parse(resp.body),
+                                    cnpj
+                                };
+
+                                receitaws.data_situacao = moment(receitaws.data_situacao, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
+                                receitaws.abertura = moment(receitaws.abertura, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
+                                if (receitaws.atividade_principal.length > 0) receitaws.atividade_principal = await receitaws.atividade_principal.map(atividades => {
+                                    return {
+                                        name: atividades.text,
+                                        code: atividades.code
+                                    }
+                                });
+                                if (receitaws.atividades_secundarias.length > 0) receitaws.atividades_secundarias = await receitaws.atividades_secundarias.map(atividades => {
+                                    return {
+                                        name: atividades.text,
+                                        code: atividades.code
+                                    }
+                                });
+
+                                const data = await CNPJModel.create(receitaws);
+                                response.sucess(res, data);
+                            }
                         });
-                        response.sucess(res, data);
                     }
                 })
                 .catch(error => response.error(res, CONTROLLER, 2, error));

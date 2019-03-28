@@ -6,6 +6,9 @@ const CPFSchema = new mongoose.Schema(
 			type: Number,
 			required: true
 		},
+		status: Number,
+		nome: String,
+		nascimento: Date
 	},
 	{ collection: 'cpfs', timestamps: true }
 );
