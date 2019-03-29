@@ -26,10 +26,6 @@ app.listen(env.PORT, err => {
 
 	require('./config/db');
 
-	// fs.readdirSync(path.join(__dirname, 'routes')).map(file => {
-	// 	require('./routes/' + file)(app);
-	// });
-
 	logger(
 		`API is now running on port ${env.PORT} in ${env.ENV} mode`
 	);

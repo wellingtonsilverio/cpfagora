@@ -5,6 +5,9 @@ const request = require('request');
 const moment = require('moment');
 
 const CONTROLLER = 1;
+const CPFCNPJ_API = "https://api.cpfcnpj.com.br";
+const CPFCNPJ_KEY = "52762817d5e97446314cbf2a805980ce";
+const RECEITAWS_API = "https://www.receitaws.com.br/v1/cnpj";
 
 const getCPF = async (req, res) => {
     // Verifica se é CPF ou CNPJ
@@ -18,34 +21,12 @@ const getCPF = async (req, res) => {
                 if (_cpf) {
                     response.sucess(res, _cpf);
                 } else {
-                    request(`https://api.cpfcnpj.com.br/52762817d5e97446314cbf2a805980ce/7/json/${cpf}`, async (error, resp) => {
-                        if (error) {
-                            console.log({ error });
-                            res.send({ error });
-                        }
-                        if (resp && resp.statusCode == 200) {
-                            const cpfcnpj = {
-                                ...JSON.parse(resp.body),
-                                cpf
-                            };
+                    getCPFofCPFCNPJ(async (error, cpfcnpj) => {
+                        if (error) return res.send({ error });
 
-                            console.log(cpfcnpj);
-
-                            cpfcnpj.nascimento = moment(cpfcnpj.nascimento, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
-
-                            cpfcnpj.pacoteUsado = undefined;
-                            cpfcnpj.saldo = undefined;
-                            cpfcnpj.consultaID = undefined;
-                            cpfcnpj.delay = undefined;
-
-                            const data = await CPFModel.create(cpfcnpj);
-                            response.sucess(res, data);
-                        }
+                        const data = await CPFModel.create(cpfcnpj);
+                        return response.sucess(res, data);
                     });
-                    // const data = await CPFModel.create({
-                    //     cpf
-                    // });
-                    // response.sucess(res, data);
                 }
             })
             .catch(error => response.error(res, CONTROLLER, 1, error));
@@ -57,35 +38,9 @@ const getCPF = async (req, res) => {
                     if (_cnpj) {
                         response.sucess(res, _cnpj);
                     } else {
-                        request(`https://www.receitaws.com.br/v1/cnpj/${cnpj}`, async (error, resp) => {
-                            if (error) {
-                                console.log({ error });
-                                res.send({ error });
-                            }
-                            if (resp && resp.statusCode == 200) {
-                                const receitaws = {
-                                    ...JSON.parse(resp.body),
-                                    cnpj
-                                };
-
-                                receitaws.data_situacao = moment(receitaws.data_situacao, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
-                                receitaws.abertura = moment(receitaws.abertura, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
-                                if (receitaws.atividade_principal.length > 0) receitaws.atividade_principal = await receitaws.atividade_principal.map(atividades => {
-                                    return {
-                                        name: atividades.text,
-                                        code: atividades.code
-                                    }
-                                });
-                                if (receitaws.atividades_secundarias.length > 0) receitaws.atividades_secundarias = await receitaws.atividades_secundarias.map(atividades => {
-                                    return {
-                                        name: atividades.text,
-                                        code: atividades.code
-                                    }
-                                });
-
-                                const data = await CNPJModel.create(receitaws);
-                                response.sucess(res, data);
-                            }
+                        getCNPJofReceitaws(async (receitaws) => {
+                            const data = await CNPJModel.create(receitaws);
+                            response.sucess(res, data);
                         });
                     }
                 })
@@ -95,34 +50,17 @@ const getCPF = async (req, res) => {
             response.failure(res, CONTROLLER, 3, { error: "CPF/CNPJ não encontrado ou invalido." });
         }
     }
-
-    // Verifica se existe no BD tal CNPJ ou CPF
-
-    // caso não
-    // Faz a requisição
-
-    // Salva no DB
-
-    // Exibe as informações da DB referente ao CNPJ ou CPF
-
-
-
-
-    // request(`https://www.receitaws.com.br/v1/cnpj/${req.params.cpf}`, function (error, response, body) {
-    //     if (error) {
-    //         console.log({ error });
-    //         res.send({ error });
-    //     }
-    //     if (response) console.log(response.statusCode);
-
-    //     if (response.statusCode == 200) res.send(body);
-    // });
 };
 
 module.exports = {
     getCPF
 };
 
+/**
+ * Validate CPF (Physical Person) and return Number of this
+ * 
+ * @param  {String} cpf - Number or String containing a CPF
+ */
 const validarCPF = (cpf) => {
     return new Promise((resolve, reject) => {
         cpf = cpf.replace(/[^\d]+/g, '');
@@ -163,6 +101,11 @@ const validarCPF = (cpf) => {
     });
 }
 
+/**
+ * Validate CNPJ (Company) and return Number of this
+ * 
+ * @param  {String} cnpj - Number or String containing a CNPJ
+ */
 const validarCNPJ = (cnpj) => {
     return new Promise((resolve, reject) => {
         cnpj = cnpj.replace(/[^\d]+/g, '');
@@ -214,5 +157,70 @@ const validarCNPJ = (cnpj) => {
             return resolve(false);
 
         return resolve(cnpj);
+    });
+}
+/**
+ * Get CPF in CPFCNPJ API and format this
+ * 
+ * @param  {{any, any}} callback - return {error, cpfcnpj}
+ */
+const getCPFofCPFCNPJ = (callback) => {
+    request(`${CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`, async (error, resp) => {
+        if (error) {
+            console.log({ error });
+            callback(error, null);
+        }
+        if (resp && resp.statusCode == 200) {
+            const cpfcnpj = {
+                ...JSON.parse(resp.body),
+                cpf
+            };
+
+            cpfcnpj.nascimento = moment(cpfcnpj.nascimento, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
+
+            cpfcnpj.pacoteUsado = undefined;
+            cpfcnpj.saldo = undefined;
+            cpfcnpj.consultaID = undefined;
+            cpfcnpj.delay = undefined;
+
+            callback(null, cpfcnpj);
+        }
+    });
+}
+
+/**
+ * Get CNPJ in Receitaws API and format this
+ * 
+ * @param  {{any, any}} callback - return {error, receitaws}
+ */
+const getCNPJofReceitaws = (callback) => {
+    request(`${RECEITAWS_API}/${cnpj}`, async (error, resp) => {
+        if (error) {
+            console.log({ error });
+            callback(error, null);
+        }
+        if (resp && resp.statusCode == 200) {
+            const receitaws = {
+                ...JSON.parse(resp.body),
+                cnpj
+            };
+
+            receitaws.data_situacao = moment(receitaws.data_situacao, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
+            receitaws.abertura = moment(receitaws.abertura, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
+            if (receitaws.atividade_principal.length > 0) receitaws.atividade_principal = await receitaws.atividade_principal.map(atividades => {
+                return {
+                    name: atividades.text,
+                    code: atividades.code
+                }
+            });
+            if (receitaws.atividades_secundarias.length > 0) receitaws.atividades_secundarias = await receitaws.atividades_secundarias.map(atividades => {
+                return {
+                    name: atividades.text,
+                    code: atividades.code
+                }
+            });
+
+            callback(null, receitaws);
+        }
     });
 }
