@@ -17,6 +17,7 @@ app.use(cors());
  
 const routes = require('./routes/cpfcnpj.route');
 app.route('/cpfcnpj/:cpfcnpj').get(routes.getCPF);
+app.route('/cpfcnpj/:_user/:cpfcnpj').get(routes.getCPF);
 
 app.listen(env.PORT, err => {
 	if (err) {

@@ -1,5 +1,6 @@
 const CPFModel = require('../models/cpf.model');
 const CNPJModel = require('../models/cnpj.model');
+const UserModel = require('../models/user.model');
 const response = require('../modules/responses');
 const validate = require('../modules/functions/validate'); 
 const env = require('../config/env');
@@ -19,12 +20,23 @@ const getCPF = async (req, res) => {
                 if (_cpf) {
                     response.sucess(res, _cpf);
                 } else {
-                    getCPFofCPFCNPJ(cpf, async (error, cpfcnpj) => {
-                        if (error) return res.send({ error });
-
-                        const data = await CPFModel.create(cpfcnpj);
-                        return response.sucess(res, data);
-                    });
+                    if (req.params._user) {
+                        UserModel.findOne({ _id: req.params._user })
+                        .then((user) => {
+                            if (!user) {
+                                return response.failure(res, CONTROLLER, 8, { error: "Não temos dados desse CPF." });
+                            } else {
+                                const CPFCNPJ_KEY = user.cpfcnpj_api;
+                                getCPFofCPFCNPJ(CPFCNPJ_KEY, cpf, async (error, cpfcnpj) => {
+                                    if (error) return response.error(res, CONTROLLER, 5, error);
+            
+                                    const data = await CPFModel.create(cpfcnpj);
+                                    return response.sucess(res, data);
+                                });
+                            }
+                        })
+                        .catch(error => response.error(res, CONTROLLER, 3, error));
+                    } else return response.failure(res, CONTROLLER, 7, { error: "Não temos dados desse CPF." });
                 }
             })
             .catch(error => response.error(res, CONTROLLER, 1, error));
@@ -34,20 +46,20 @@ const getCPF = async (req, res) => {
             CNPJModel.findOne({ cnpj })
                 .then(async (_cnpj) => {
                     if (_cnpj) {
-                        response.sucess(res, _cnpj);
+                        return response.sucess(res, _cnpj);
                     } else {
                         getCNPJofReceitaws(cnpj, async (error, receitaws) => {
-                            if (error) return res.send({ error });
+                            if (error) return response.error(res, CONTROLLER, 4, error);
 
                             const data = await CNPJModel.create(receitaws);
-                            response.sucess(res, data);
+                            return response.sucess(res, data);
                         });
                     }
                 })
                 .catch(error => response.error(res, CONTROLLER, 2, error));
         } else {
             // ERROR
-            response.failure(res, CONTROLLER, 3, { error: "CPF/CNPJ invalido." });
+            response.failure(res, CONTROLLER, 6, { error: "CPF/CNPJ invalido." });
         }
     }
 };
@@ -62,8 +74,8 @@ module.exports = {
  * 
  * @param  {{any, any}} callback - return {error, cpfcnpj}
  */
-const getCPFofCPFCNPJ = (cpf, callback) => {
-    request(`${env.CPFCNPJ_API}/${env.CPFCNPJ_KEY}/7/json/${cpf}`, async (error, resp) => {
+const getCPFofCPFCNPJ = (CPFCNPJ_KEY, cpf, callback) => {
+    request(`${env.CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`, async (error, resp) => {
         if (error) {
             console.log({ error });
             callback(error, null);
