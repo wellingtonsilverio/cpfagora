@@ -75,12 +75,15 @@ module.exports = {
  * @param  {{any, any}} callback - return {error, cpfcnpj}
  */
 const getCPFofCPFCNPJ = (CPFCNPJ_KEY, cpf, callback) => {
-    request(`${env.CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`, async (error, resp) => {
+    request({
+        url:  `${env.CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`,
+        timeout: 1000
+    }, async (error, resp) => {
         if (error) {
             console.log({ error });
+            if (error.code == "ETIMEDOUT" || error.code == "ESOCKETTIMEDOUT") console.log("-------------------------ETIMEDOUT-------------------------");
             callback(error, null);
-        }
-        if (resp && resp.statusCode == 200) {
+        } else if (resp && resp.statusCode == 200) {
             const cpfcnpj = {
                 ...JSON.parse(resp.body),
                 cpf
