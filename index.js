@@ -1,10 +1,10 @@
-var express = require('express');
-var env = require('./config/env');
+const express = require('express');
+const env = require('./config/env');
 const bodyParser = require("body-parser");
 const compression = require("compression");
 const cors = require("cors");
-var logger = console.log;
-var app = express();
+const logger = console.log;
+const app = express();
 
 // Compress the request into GZIP reducing loading time
 app.use(compression());

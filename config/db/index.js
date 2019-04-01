@@ -1,6 +1,6 @@
-var mongoose = require('mongoose');
-var env = require('../env');
-var logger = console.log;
+const mongoose = require('mongoose');
+const env = require('../env');
+const logger = console.log;
 
 // import config from '../../config';
 

@@ -4,7 +4,8 @@ const CPFSchema = new mongoose.Schema(
 	{
 		cpf: {
 			type: Number,
-			required: true
+			required: true,
+			unique: true
 		},
 		status: Number,
 		nome: String,

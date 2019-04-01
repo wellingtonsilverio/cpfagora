@@ -4,7 +4,8 @@ const CNPJSchema = new mongoose.Schema(
 	{
 		cnpj: {
 			type: Number,
-			required: true
+			required: true,
+			unique: true
 		},
 		atividade_principal: Array(
 			{
