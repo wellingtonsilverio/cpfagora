@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 
 const CNPJSchema = new mongoose.Schema(
 	{
@@ -53,4 +53,4 @@ const CNPJSchema = new mongoose.Schema(
 	{ collection: 'cnpjs', timestamps: true }
 );
 
-module.exports = exports = mongoose.model('CNPJ', CNPJSchema);
+export default mongoose.model('CNPJ', CNPJSchema);

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import * as mongoose from "mongoose";
 
 const CPFSchema = new mongoose.Schema(
 	{
@@ -14,4 +14,4 @@ const CPFSchema = new mongoose.Schema(
 	{ collection: 'cpfs', timestamps: true }
 );
 
-module.exports = mongoose.model('CPF', CPFSchema);
+export default mongoose.model('CPF', CPFSchema);
