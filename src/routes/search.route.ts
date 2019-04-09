@@ -88,6 +88,7 @@ const getCPFofCPFCNPJ = (CPFCNPJ_KEY: any, cpf: string, callback: any) => {
         if (error) {
             if (error.code == "ETIMEDOUT" || error.code == "ESOCKETTIMEDOUT") {
                 nextRequestCPF(cpf);
+                callback(error, null); // Remover após implementar nextRequestCPF
             } else {
                 console.log({ error });
                 callback(error, null);
