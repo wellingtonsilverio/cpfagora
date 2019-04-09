@@ -16,9 +16,11 @@
   },
   "keywords": [
     "cpf",
+    "cnpj",
     "cpfagora",
     "consulta",
-    "consultacpf"
+    "consultacpf",
+    "consultacnpj"
   ],
   "author": "Wellington A. A. Silverio",
   "license": "MIT",
