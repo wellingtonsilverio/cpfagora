@@ -127,7 +127,10 @@ const formatCPFCNPJ = (cpfcnpj: any) => {
 };
 
 const getCNPJofReceitaws = (cnpj: string, callback: any) => {
-    request(`${process.env.RECEITAWS_API}/${cnpj}`, async (error: any, resp: any) => {
+    request({
+        url: `${process.env.RECEITAWS_API}/${cnpj}`,
+        timeout: MAX_TIMEOUT
+    }, async (error: any, resp: any) => {
         if (error) {
             console.log({ error });
             callback(error, null);
