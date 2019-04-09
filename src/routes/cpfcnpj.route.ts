@@ -1,12 +1,13 @@
-import CPFModel from "../models/cpf.model";
-import CNPJModel from "../models/cnpj.model";
-import UserModel from "../models/user.model";
+import { CPFModel } from "../models/cpf.model";
+import { CNPJModel } from "../models/cnpj.model";
+import { UserModel } from "../models/user.model";
 import { sucessResponse, failureResponse, errorResponse } from "../modules/responses";
 import { validarCPF, validarCNPJ } from "../modules/functions/validate";
 import * as request from "request";
 import * as moment from "moment";
 
 const CONTROLLER: number = 1;
+const MAX_TIMEOUT = 5000;
 
 export const getCPFOrCNPJ = async (req: any, res: any) => {
     await checkCpfOrCnpj(res, req.params.cpfcnpj, req.params._user);
@@ -15,7 +16,7 @@ export const getCPFOrCNPJ = async (req: any, res: any) => {
 const checkCpfOrCnpj = async (res: any, cpfcnpj: string, _user: string) => {
     let _cpf: string;
     let _cnpj: string;
-    
+
     if (_cpf = await validarCPF(cpfcnpj)) {
         await getCPF(res, _cpf, _user);
     } else if (_cnpj = await validarCNPJ(cpfcnpj)) {
@@ -82,7 +83,7 @@ const getUserByIdAndSaveCpf = async (res: any, _user: string, cpf: string) => {
 const getCPFofCPFCNPJ = (CPFCNPJ_KEY: any, cpf: string, callback: any) => {
     request({
         url: `${process.env.CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`,
-        timeout: 5000
+        timeout: MAX_TIMEOUT
     }, async (error: any, resp: any) => {
         if (error) {
             if (error.code == "ETIMEDOUT" || error.code == "ESOCKETTIMEDOUT") {

@@ -1,6 +1,7 @@
-import * as mongoose from "mongoose";
+import { Schema, Model, model } from "mongoose";
+import { ICNPJModel } from "../interfaces/cnpj.interface";
 
-const CNPJSchema = new mongoose.Schema(
+const CNPJSchema = new Schema(
 	{
 		cnpj: {
 			type: Number,
@@ -53,4 +54,4 @@ const CNPJSchema = new mongoose.Schema(
 	{ collection: 'cnpjs', timestamps: true }
 );
 
-export default mongoose.model('CNPJ', CNPJSchema);
+export const CNPJModel: Model<ICNPJModel> = model<ICNPJModel>("CNPJ", CNPJSchema);

@@ -1,6 +1,7 @@
-import * as mongoose from "mongoose";
+import { Schema, Model, model } from "mongoose";
+import { ICPFModel } from "../interfaces/cpf.interface";
 
-const CPFSchema = new mongoose.Schema(
+const CPFSchema = new Schema(
 	{
 		cpf: {
 			type: Number,
@@ -14,4 +15,4 @@ const CPFSchema = new mongoose.Schema(
 	{ collection: 'cpfs', timestamps: true }
 );
 
-export default mongoose.model('CPF', CPFSchema);
+export const CPFModel: Model<ICPFModel> = model<ICPFModel>("CPF", CPFSchema);
