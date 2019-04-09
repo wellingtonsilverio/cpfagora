@@ -4,7 +4,7 @@ import * as bodyParser from "body-parser";
 import * as compression from "compression";
 import * as cors from "cors";
 import * as dotenvExpand from "dotenv-expand";
-import { getCPF } from "./routes/cpfcnpj.route";
+import { getCPFOrCNPJ } from "./routes/cpfcnpj.route";
  
 const start = async () => {
 	try {
@@ -39,8 +39,8 @@ const config = (app: Express) => {
 };
 
 const routes = (app: Express) => {
-	app.route('/cpfcnpj/:cpfcnpj').get(getCPF);
-	app.route('/cpfcnpj/:_user/:cpfcnpj').get(getCPF);
+	app.route('/cpfcnpj/:cpfcnpj').get(getCPFOrCNPJ);
+	app.route('/cpfcnpj/:_user/:cpfcnpj').get(getCPFOrCNPJ);
 };
 
 start();
