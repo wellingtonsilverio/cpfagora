@@ -153,19 +153,23 @@ const formatReceitaws = async (receitaws: any) => {
     receitaws.data_situacao = moment(receitaws.data_situacao, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
     receitaws.abertura = moment(receitaws.abertura, "DD-MM-YYYY", "America/Sao_Paulo").toISOString();
 
-    if (receitaws.atividade_principal && receitaws.atividade_principal.length > 0) receitaws.atividade_principal = await receitaws.atividade_principal.map((atividades: any) => {
-        return {
-            name: atividades.text,
-            code: atividades.code
-        }
-    });
-
-    if (receitaws.atividades_secundarias && receitaws.atividades_secundarias.length > 0) receitaws.atividades_secundarias = await receitaws.atividades_secundarias.map((atividades: any) => {
-        return {
-            name: atividades.text,
-            code: atividades.code
-        }
-    });
+    if (isArrayNotEmpty(receitaws.atividade_principal))
+        receitaws.atividade_principal = await formatActivity(receitaws.atividade_principal);
+    if (isArrayNotEmpty(receitaws.atividades_secundarias))
+        receitaws.atividades_secundarias = await formatActivity(receitaws.atividades_secundarias);
 
     return receitaws;
+};
+
+const isArrayNotEmpty = (array: any[]) => {
+    return array && array.length > 0;
+}
+
+const formatActivity = async (activity: any) => {
+    return await activity.map((atividades: any) => {
+        return {
+            name: atividades.text,
+            code: atividades.code
+        }
+    });
 };
