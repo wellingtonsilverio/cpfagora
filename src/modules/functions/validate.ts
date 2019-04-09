@@ -3,10 +3,10 @@
  * 
  * @param  {String} cpf - Number or String containing a CPF
  */
-export const validarCPF = (cpf: string) => {
+export const validarCPF = (cpf: string): Promise<string> => {
     return new Promise((resolve) => {
         cpf = cpf.replace(/[^\d]+/g, '');
-        if (cpf == '') return resolve(false);
+        if (cpf == '') return resolve(undefined);
         // Elimina CPFs invalidos conhecidos	
         if (cpf.length != 11 ||
             cpf == "00000000000" ||
@@ -19,7 +19,7 @@ export const validarCPF = (cpf: string) => {
             cpf == "77777777777" ||
             cpf == "88888888888" ||
             cpf == "99999999999")
-            return resolve(false);
+            return resolve(undefined);
         // Valida 1o digito	
         let add = 0;
         for (let i = 0; i < 9; i++)
@@ -28,7 +28,7 @@ export const validarCPF = (cpf: string) => {
         if (rev == 10 || rev == 11)
             rev = 0;
         if (rev != parseInt(cpf.charAt(9)))
-            return resolve(false);
+            return resolve(undefined);
         // Valida 2o digito	
         add = 0;
         for (let i = 0; i < 10; i++)
@@ -37,7 +37,7 @@ export const validarCPF = (cpf: string) => {
         if (rev == 10 || rev == 11)
             rev = 0;
         if (rev != parseInt(cpf.charAt(10)))
-            return resolve(false);
+            return resolve(undefined);
 
         return resolve(cpf);
     });
@@ -48,14 +48,14 @@ export const validarCPF = (cpf: string) => {
  * 
  * @param  {String} cnpj - Number or String containing a CNPJ
  */
-export const validarCNPJ = (cnpj: string) => {
+export const validarCNPJ = (cnpj: string): Promise<string> => {
     return new Promise((resolve) => {
         cnpj = cnpj.replace(/[^\d]+/g, '');
 
-        if (cnpj == '') return resolve(false);
+        if (cnpj == '') return resolve(undefined);
 
         if (cnpj.length != 14)
-            return resolve(false);
+            return resolve(undefined);
 
         // Elimina CNPJs invalidos conhecidos
         if (cnpj == "00000000000000" ||
@@ -68,7 +68,7 @@ export const validarCNPJ = (cnpj: string) => {
             cnpj == "77777777777777" ||
             cnpj == "88888888888888" ||
             cnpj == "99999999999999")
-            return resolve(false);
+            return resolve(undefined);
 
         // Valida DVs
         let tamanho: number = cnpj.length - 2
@@ -83,7 +83,7 @@ export const validarCNPJ = (cnpj: string) => {
         }
         let resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
         if (resultado != digitos.charAt(0))
-            return resolve(false);
+            return resolve(undefined);
 
         tamanho = tamanho + 1;
         numeros = cnpj.substring(0, tamanho);
@@ -96,7 +96,7 @@ export const validarCNPJ = (cnpj: string) => {
         }
         resultado = soma % 11 < 2 ? 0 : 11 - soma % 11;
         if (resultado != digitos.charAt(1))
-            return resolve(false);
+            return resolve(undefined);
 
         return resolve(cnpj);
     });

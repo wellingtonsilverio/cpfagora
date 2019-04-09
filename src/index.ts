@@ -3,6 +3,8 @@ import { Express } from "express";
 import * as bodyParser from "body-parser";
 import * as compression from "compression";
 import * as cors from "cors";
+import * as dotenvExpand from "dotenv-expand";
+import { getCPF } from "./routes/cpfcnpj.route";
  
 const start = async () => {
 	try {
@@ -24,7 +26,7 @@ const start = async () => {
 };
 
 const config = (app: Express) => {
-	require("dotenv").config();
+	dotenvExpand(require("dotenv").config());
 
 	// Compress the request into GZIP reducing loading time
 	app.use(compression());
@@ -37,10 +39,8 @@ const config = (app: Express) => {
 };
 
 const routes = (app: Express) => {
-	const routes = require('./routes/cpfcnpj.route');
-
-	app.route('/cpfcnpj/:cpfcnpj').get(routes.getCPF);
-	app.route('/cpfcnpj/:_user/:cpfcnpj').get(routes.getCPF);
+	app.route('/cpfcnpj/:cpfcnpj').get(getCPF);
+	app.route('/cpfcnpj/:_user/:cpfcnpj').get(getCPF);
 };
 
 start();
