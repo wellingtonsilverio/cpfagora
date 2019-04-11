@@ -19,11 +19,16 @@ RECEITAWS_API =
 git clone https://github.com/wellingtonsilverio/cpfagora.git
 cd cpfagora
 ```
-### Install nodejs modules
+
+### Install NodeJS
+get in https://nodejs.org, choice you platform, download this and install in admin mode
+
+### Install NodeJS modules needed run project
 ```bash
 npm i
 ```
-### Run developement mode
+
+### Run 
 ```bash
-npm run serve
+npm start
 ```
