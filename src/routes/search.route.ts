@@ -9,7 +9,7 @@ import { CPFCNPJKeyModel } from "../models/cpfcnpjkey.model";
 import { ICPFCNPJKey } from "../interfaces/cpfcnpjkey.interface";
 
 const CONTROLLER: number = 1;
-const MAX_TIMEOUT = 10000;
+const MAX_TIMEOUT = 5000;
 
 export const getCPFOrCNPJ = async (req: any, res: any) => {
     await checkCpfOrCnpj(res, req.params.cpfcnpj, req.params._user);
