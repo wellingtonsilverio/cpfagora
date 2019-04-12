@@ -7,9 +7,10 @@ const UserSchema = new Schema(
             type: String,
             required: true
         },
-        cpfcnpj_api: {
-            type: String,
-            required: false
+        balance: {
+            type: Number,
+            required: false,
+            default: 0
         }
 	},
 	{ collection: 'users', timestamps: true }

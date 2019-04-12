@@ -5,6 +5,8 @@ import { sucessResponse, failureResponse, errorResponse } from "../modules/respo
 import { validarCPF, validarCNPJ } from "../modules/functions/validate";
 import * as request from "request";
 import * as moment from "moment";
+import { CPFCNPJKeyModel } from "../models/cpfcnpjkey.model";
+import { ICPFCNPJKey } from "../interfaces/cpfcnpjkey.interface";
 
 const CONTROLLER: number = 1;
 const MAX_TIMEOUT = 5000;
@@ -14,6 +16,9 @@ export const getCPFOrCNPJ = async (req: any, res: any) => {
 };
 
 const checkCpfOrCnpj = async (res: any, cpfcnpj: string, _user: string) => {
+    await getCPFCNPJKey();
+
+
     let _cpf: string;
     let _cnpj: string;
 
@@ -68,16 +73,41 @@ const getUserByIdAndSaveCpf = async (res: any, _user: string, cpf: string) => {
     const user: any = await UserModel.findOne({ _id: _user });
 
     if (!user) {
-        return failureResponse(res, CONTROLLER, 8, { error: "Não temos dados desse CPF." });
+        return failureResponse(res, CONTROLLER, 8, { error: "Não temos dados desse Usuário." });
     } else {
-        const CPFCNPJ_KEY = user.cpfcnpj_api;
-        getCPFofCPFCNPJ(CPFCNPJ_KEY, cpf, async (error: any, cpfcnpj: any) => {
-            if (error) return errorResponse(res, CONTROLLER, 5, error);
+        if (user.balance > 0) {
+            const CPFCNPJKey = await getCPFCNPJKeyByScore();
+        } else return failureResponse(res, CONTROLLER, 8, { error: "Créditos Insuficientes." });
+        // const CPFCNPJ_KEY = user.cpfcnpj_api;
+        // getCPFofCPFCNPJ(CPFCNPJ_KEY, cpf, async (error: any, cpfcnpj: any) => {
+        //     if (error) return errorResponse(res, CONTROLLER, 5, error);
 
-            const data = await CPFModel.create(cpfcnpj);
-            return sucessResponse(res, data);
-        });
+        //     const data = await CPFModel.create(cpfcnpj);
+        //     return sucessResponse(res, data);
+        // });
     }
+};
+
+const getCPFCNPJKeyByScore = async () => {
+    const millisegInDay = (24 * 60 * 60 * 1000);
+    const keys: ICPFCNPJKey[] = await CPFCNPJKeyModel.find();
+
+    let bestKey = {
+        key: "",
+        score: 0
+    }
+    
+    let key: ICPFCNPJKey;
+    for (key of keys) {
+        const score: number = key.balance + ((moment().diff(key.accessedAt) / millisegInDay) * 120);
+
+        if (bestKey.score < score) {
+            bestKey.key = key.key;
+            bestKey.score = score;
+        }
+    }
+    
+    return bestKey.key;
 };
 
 const getCPFofCPFCNPJ = (CPFCNPJ_KEY: any, cpf: string, callback: any) => {
@@ -107,6 +137,32 @@ const getCPFofCPFCNPJ = (CPFCNPJ_KEY: any, cpf: string, callback: any) => {
             error: "CPF não encontrado ou conexão com o DB falhou."
         }, null);
     });
+    // var http = require("https");
+
+    // var options = {
+    // "method": "GET",
+    // "hostname": "api.procob.com",
+    // "port": 443,
+    // "path": "/consultas/v2/L0001/44589666855",
+    // "headers": {
+    //     "authorization": "Basic c2FuZGJveEBwcm9jb2IuY29tOlRlc3RlQXBp",
+    // }
+    // };
+
+    // var req = http.request(options, function (res: any) {
+    // var chunks: any[] = [];
+
+    // res.on("data", function (chunk: any) {
+    //     chunks.push(chunk);
+    // });
+
+    // res.on("end", function () {
+    //     var body = Buffer.concat(chunks);
+    //     console.log(body.toString());
+    // });
+    // });
+
+    // req.end();
 };
 
 const nextRequestCPF = (cpf: string) => {
