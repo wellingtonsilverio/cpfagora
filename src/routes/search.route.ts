@@ -9,16 +9,13 @@ import { CPFCNPJKeyModel } from "../models/cpfcnpjkey.model";
 import { ICPFCNPJKey } from "../interfaces/cpfcnpjkey.interface";
 
 const CONTROLLER: number = 1;
-const MAX_TIMEOUT = 5000;
+const MAX_TIMEOUT = 10000;
 
 export const getCPFOrCNPJ = async (req: any, res: any) => {
     await checkCpfOrCnpj(res, req.params.cpfcnpj, req.params._user);
 };
 
 const checkCpfOrCnpj = async (res: any, cpfcnpj: string, _user: string) => {
-    await getCPFCNPJKey();
-
-
     let _cpf: string;
     let _cnpj: string;
 
@@ -77,14 +74,15 @@ const getUserByIdAndSaveCpf = async (res: any, _user: string, cpf: string) => {
     } else {
         if (user.balance > 0) {
             const CPFCNPJKey = await getCPFCNPJKeyByScore();
-        } else return failureResponse(res, CONTROLLER, 8, { error: "Créditos Insuficientes." });
-        // const CPFCNPJ_KEY = user.cpfcnpj_api;
-        // getCPFofCPFCNPJ(CPFCNPJ_KEY, cpf, async (error: any, cpfcnpj: any) => {
-        //     if (error) return errorResponse(res, CONTROLLER, 5, error);
 
-        //     const data = await CPFModel.create(cpfcnpj);
-        //     return sucessResponse(res, data);
-        // });
+            
+            getCPFofCPFCNPJ(res, CPFCNPJKey, cpf, _user, async (error: any, cpfcnpj: any) => {
+                if (error) return errorResponse(res, CONTROLLER, 5, error);
+
+                const data = await CPFModel.create(cpfcnpj);
+                return sucessResponse(res, data);
+            });
+        } else return failureResponse(res, CONTROLLER, 8, { error: "Créditos Insuficientes." });
     }
 };
 
@@ -96,7 +94,7 @@ const getCPFCNPJKeyByScore = async () => {
         key: "",
         score: 0
     }
-    
+
     let key: ICPFCNPJKey;
     for (key of keys) {
         const score: number = key.balance + ((moment().diff(key.accessedAt) / millisegInDay) * 120);
@@ -110,13 +108,15 @@ const getCPFCNPJKeyByScore = async () => {
     return bestKey.key;
 };
 
-const getCPFofCPFCNPJ = (CPFCNPJ_KEY: any, cpf: string, callback: any) => {
+const getCPFofCPFCNPJ = (res: any, CPFCNPJ_KEY: any, cpf: string, _user: string, callback: any) => {
+    const url = `${process.env.CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`;
     request({
-        url: `${process.env.CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`,
+        url: url,
         timeout: MAX_TIMEOUT
     }, async (error: any, resp: any) => {
         if (error) {
             if (error.code == "ETIMEDOUT" || error.code == "ESOCKETTIMEDOUT") {
+                console.log("ETIMEDOUT");
                 nextRequestCPF(cpf);
                 callback(error, null); // Remover após implementar nextRequestCPF
             } else {
@@ -124,14 +124,19 @@ const getCPFofCPFCNPJ = (CPFCNPJ_KEY: any, cpf: string, callback: any) => {
                 callback(error, null);
             }
         } else if (resp && resp.statusCode == 200) {
+            const cpfcnpjResponse = JSON.parse(resp.body);
             const cpfcnpj = {
-                ...JSON.parse(resp.body),
+                ...cpfcnpjResponse,
                 cpf
             };
-
-            saveCPFCNPJCreditBalance(cpfcnpj);
+            
+            await saveCPFCNPJCreditBalance(CPFCNPJ_KEY, cpfcnpj.saldo, _user);
 
             callback(null, formatCPFCNPJ(cpfcnpj));
+        } else if (resp && resp.statusCode == 402) {
+            await saveCPFCNPJCreditBalance(CPFCNPJ_KEY, 0);
+
+            await getUserByIdAndSaveCpf(res, _user, cpf);
         } else callback({
             statusCode: resp.statusCode,
             error: "CPF não encontrado ou conexão com o DB falhou."
@@ -169,8 +174,9 @@ const nextRequestCPF = (cpf: string) => {
     // TODO
 };
 
-const saveCPFCNPJCreditBalance = (cpfcnpj: any) => {
-    // TODO
+const saveCPFCNPJCreditBalance = async (cpfcnpj: string, balance: number, _user?: string) => {
+    await CPFCNPJKeyModel.findOneAndUpdate({ key: cpfcnpj }, { balance, accessedAt: moment().toDate() }).exec();
+    if (_user) await UserModel.findByIdAndUpdate(_user, { $inc: { "balance": -1 } }).exec();
 };
 
 const formatCPFCNPJ = (cpfcnpj: any) => {
