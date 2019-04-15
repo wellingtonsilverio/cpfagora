@@ -2,7 +2,7 @@ import * as mongoose from "mongoose";
 
 const MONGO_URI: string = String(process.env.MONGO_URI);
 
-const connection = () => {
+export const connection = () => {
 	mongoose.set('useCreateIndex', true);
 	mongoose.connect(MONGO_URI, { useNewUrlParser: true }).then((db: any) => {
 		console.log(
@@ -20,6 +20,4 @@ const connection = () => {
 		}
 	});
 };
-
-connection();
 	

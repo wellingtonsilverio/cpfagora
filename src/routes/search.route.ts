@@ -9,20 +9,20 @@ import { CPFCNPJKeyModel } from "../models/cpfcnpjkey.model";
 import { ICPFCNPJKey } from "../interfaces/cpfcnpjkey.interface";
 
 const CONTROLLER: number = 1;
-const MAX_TIMEOUT = 5000;
+const MAX_TIMEOUT = 4000;
 
 export const getCPFOrCNPJ = async (req: any, res: any) => {
     await checkCpfOrCnpj(res, req.params.cpfcnpj, req.params._user);
 };
 
 const checkCpfOrCnpj = async (res: any, cpfcnpj: string, _user: string) => {
-    let _cpf: string;
-    let _cnpj: string;
+    let cpf: string;
+    let cnpj: string;
 
-    if (_cpf = await validarCPF(cpfcnpj)) {
-        await getCPF(res, _cpf, _user);
-    } else if (_cnpj = await validarCNPJ(cpfcnpj)) {
-        await getCNPJ(res, _cnpj);
+    if (cpf = await validarCPF(cpfcnpj)) {
+        await getCPF(res, cpf, _user);
+    } else if (cnpj = await validarCNPJ(cpfcnpj)) {
+        await getCNPJ(res, cnpj);
     } else {
         failureResponse(res, CONTROLLER, 6, { error: "CPF/CNPJ invalido." });
     }
@@ -31,6 +31,7 @@ const checkCpfOrCnpj = async (res: any, cpfcnpj: string, _user: string) => {
 const getCPF = async (res: any, cpf: string, _user: any) => {
     try {
         const _cpf: any = await CPFModel.findOne({ cpf: cpf });
+
         if (_cpf) {
             sucessResponse(res, _cpf);
         } else {
@@ -44,25 +45,6 @@ const getCPF = async (res: any, cpf: string, _user: any) => {
         }
     } catch (error) {
         errorResponse(res, CONTROLLER, 1, error);
-    }
-};
-
-const getCNPJ = async (res: any, cnpj: string) => {
-    try {
-        const _cnpj: any = await CNPJModel.findOne({ cnpj: cnpj });
-
-        if (_cnpj) {
-            return sucessResponse(res, _cnpj);
-        } else {
-            getCNPJofReceitaws(cnpj, async (error: any, receitaws: any) => {
-                if (error) return errorResponse(res, CONTROLLER, 4, error);
-
-                const data = await CNPJModel.create(receitaws);
-                return sucessResponse(res, data);
-            });
-        }
-    } catch (error) {
-        errorResponse(res, CONTROLLER, 2, error);
     }
 };
 
@@ -142,32 +124,6 @@ const getCPFofCPFCNPJ = (res: any, CPFCNPJ_KEY: any, cpf: string, _user: string,
             error: "CPF não encontrado ou conexão com o DB falhou."
         }, null);
     });
-    // var http = require("https");
-
-    // var options = {
-    // "method": "GET",
-    // "hostname": "api.procob.com",
-    // "port": 443,
-    // "path": "/consultas/v2/L0001/44589666855",
-    // "headers": {
-    //     "authorization": "Basic c2FuZGJveEBwcm9jb2IuY29tOlRlc3RlQXBp",
-    // }
-    // };
-
-    // var req = http.request(options, function (res: any) {
-    // var chunks: any[] = [];
-
-    // res.on("data", function (chunk: any) {
-    //     chunks.push(chunk);
-    // });
-
-    // res.on("end", function () {
-    //     var body = Buffer.concat(chunks);
-    //     console.log(body.toString());
-    // });
-    // });
-
-    // req.end();
 };
 
 const nextRequestCPF = (cpf: string) => {
@@ -187,6 +143,25 @@ const formatCPFCNPJ = (cpfcnpj: any) => {
     cpfcnpj.delay = undefined;
 
     return cpfcnpj;
+};
+
+const getCNPJ = async (res: any, cnpj: string) => {
+    try {
+        const _cnpj: any = await CNPJModel.findOne({ cnpj: cnpj });
+
+        if (_cnpj) {
+            return sucessResponse(res, _cnpj);
+        } else {
+            getCNPJofReceitaws(cnpj, async (error: any, receitaws: any) => {
+                if (error) return errorResponse(res, CONTROLLER, 4, error);
+
+                const data = await CNPJModel.create(receitaws);
+                return sucessResponse(res, data);
+            });
+        }
+    } catch (error) {
+        errorResponse(res, CONTROLLER, 2, error);
+    }
 };
 
 const getCNPJofReceitaws = (cnpj: string, callback: any) => {
