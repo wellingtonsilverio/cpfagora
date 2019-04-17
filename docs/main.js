@@ -74,7 +74,7 @@ module.exports = "/*!\n * Start Bootstrap - Agency v5.0.7 (https://startbootstra
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Navigation -->\n<nav class=\"navbar navbar-expand-lg navbar-dark fixed-top\" id=\"mainNav\">\n  <div class=\"container\">\n    <a class=\"navbar-brand js-scroll-trigger\"><img src=\"assets/img/logo.png\" alt=\"CPF agora\"></a>\n    <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\"\n      data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\"\n      aria-label=\"Toggle navigation\">\n      Menu\n      <i class=\"fas fa-bars\"></i>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\n      <ul class=\"navbar-nav text-uppercase ml-auto\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#search\">Buscar</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#plan\">Planos</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#doc\">Documentação</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#contact\">Contato</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</nav>\n\n<!-- Header -->\n<header class=\"masthead\" id=\"search\">\n  <div class=\"container\">\n    <form [formGroup]=\"searchCpfCnpj\" novalidate (ngSubmit)=\"search(searchCpfCnpj.value)\" class=\"intro-text\">\n      <div class=\"intro-lead-in\">Pesquise Agora pelo CPF</div>\n      <div class=\"intro-heading text-uppercase\">\n        <input matInput type=\"text\" formControlName=\"cpfcnpj\">\n        <!-- <div *ngIf=\"cpfcnpj.getError('required')\">\n          REQUIRED\n        </div>\n        <div *ngIf=\"cpfcnpj.getError('minlength')\">\n          MINLENGTH\n        </div> -->\n      </div>\n      <input type=\"submit\" class=\"btn btn-primary btn-xl text-uppercase js-scroll-trigger\"\n        [disabled]=\"!searchCpfCnpj.valid\" value=\"Consultar\">\n    </form>\n  </div>\n</header>\n\n<!-- SEARCH: RESPONSE -->\n<section class=\"bg-light\" id=\"team\" *ngIf=\"cpf\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cpf.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n        <div class=\"col-sm-4\">\n          <div class=\"team-member\">\n            <h4>CPF</h4>\n            <p class=\"text-muted\">{{ cpf.cpf }}</p>\n          </div>\n        </div>\n        <div class=\"col-sm-4\">\n          <div class=\"team-member\">\n            <h4>Nacimento</h4>\n            <p class=\"text-muted\">{{ cpf.nascimento | date:'dd/MM/yyyy' }}</p>\n          </div>\n        </div>\n        <div class=\"col-sm-4\">\n          <div class=\"team-member\">\n            <h4>Situação na receita</h4>\n            <p class=\"text-muted\">{{ (cpf.status == 1) ? 'Regular' : 'Irregular' }}</p>\n          </div>\n        </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cpf.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- Footer -->\n<footer>\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-md-4\">\n        <span class=\"copyright\">Copyright &copy; <a href=\"http://wellingtonsilverio.github.io\"\n            target=\"_blank\">Wellington Silverio</a> 2019</span>\n      </div>\n      <div class=\"col-md-4\">\n        <ul class=\"list-inline social-buttons\">\n          <li class=\"list-inline-item\">\n            <a href=\"#\">\n              <i class=\"fab fa-twitter\"></i>\n            </a>\n          </li>\n          <li class=\"list-inline-item\">\n            <a href=\"#\">\n              <i class=\"fab fa-facebook-f\"></i>\n            </a>\n          </li>\n          <li class=\"list-inline-item\">\n            <a href=\"#\">\n              <i class=\"fab fa-linkedin-in\"></i>\n            </a>\n          </li>\n        </ul>\n      </div>\n      <div class=\"col-md-4\">\n        <ul class=\"list-inline quicklinks\">\n          <li class=\"list-inline-item\">\n            <a href=\"#\">Privacy Policy</a>\n          </li>\n          <li class=\"list-inline-item\">\n            <a href=\"#\">Terms of Use</a>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</footer>\n\n<router-outlet></router-outlet>"
+module.exports = "<!-- Navigation -->\n<nav class=\"navbar navbar-expand-lg navbar-dark fixed-top\" id=\"mainNav\">\n  <div class=\"container\">\n    <a class=\"navbar-brand js-scroll-trigger\"><img src=\"assets/img/logo.png\" alt=\"CPF agora\"></a>\n    <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\"\n      data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\"\n      aria-label=\"Toggle navigation\">\n      Menu\n      <i class=\"fas fa-bars\"></i>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\n      <ul class=\"navbar-nav text-uppercase ml-auto\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#search\">Buscar</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#plan\">Planos</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#doc\">Documentação</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#contact\">Contato</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</nav>\n\n<!-- Header -->\n<header class=\"masthead\" id=\"search\">\n  <div class=\"container\">\n    <form [formGroup]=\"searchCpfCnpj\" novalidate (ngSubmit)=\"search(searchCpfCnpj.value)\" class=\"intro-text\">\n      <div class=\"intro-lead-in\">Pesquise Agora pelo CPF</div>\n      <div class=\"intro-heading text-uppercase\">\n        <input matInput type=\"text\" formControlName=\"cpfcnpj\">\n        <!-- <div *ngIf=\"cpfcnpj.getError('required')\">\n          REQUIRED\n        </div>\n        <div *ngIf=\"cpfcnpj.getError('minlength')\">\n          MINLENGTH\n        </div> -->\n      </div>\n      <input type=\"submit\" class=\"btn btn-primary btn-xl text-uppercase js-scroll-trigger\"\n        [disabled]=\"!searchCpfCnpj.valid\" value=\"Consultar\">\n    </form>\n  </div>\n</header>\n\n<!-- SEARCH: RESPONSE -->\n<section class=\"bg-light\" *ngIf=\"cpf\" id=\"searchcpf\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cpf.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n        <div class=\"col-sm-4\">\n          <div class=\"team-member\">\n            <h4>CPF</h4>\n            <p class=\"text-muted\">{{ cpf.cpf }}</p>\n          </div>\n        </div>\n        <div class=\"col-sm-4\">\n          <div class=\"team-member\">\n            <h4>Nacimento</h4>\n            <p class=\"text-muted\">{{ cpf.nascimento | date:'dd/MM/yyyy' }}</p>\n          </div>\n        </div>\n        <div class=\"col-sm-4\">\n          <div class=\"team-member\">\n            <h4>Situação na receita</h4>\n            <p class=\"text-muted\">{{ (cpf.status == 1) ? 'Regular' : 'Irregular' }}</p>\n          </div>\n        </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cpf.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: ERROR -->\n<section class=\"bg-light\" id=\"team\" *ngIf=\"error\" id=\"searcherror\">\n    <div class=\"container\">\n      <div class=\"row\">\n        <div class=\"col-lg-12 text-center\">\n          <h2 class=\"section-heading text-uppercase\">{{ error }}</h2>\n        </div>\n      </div>\n      <div class=\"row\">\n        <div class=\"col-lg-8 mx-auto text-center\">\n          <p class=\"large text-muted\">\n              pesquisa por {{ cpfcnpj.value }} retornou um erro.\n          </p>\n        </div>\n      </div>\n    </div>\n  </section>\n\n<!-- Footer -->\n<footer>\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-md-4\">\n        <span class=\"copyright\">Copyright &copy; <a href=\"http://wellingtonsilverio.github.io\"\n            target=\"_blank\">Wellington Silverio</a> 2019</span>\n      </div>\n      <div class=\"col-md-4\">\n        <ul class=\"list-inline social-buttons\">\n          <li class=\"list-inline-item\">\n            <a href=\"#\">\n              <i class=\"fab fa-twitter\"></i>\n            </a>\n          </li>\n          <li class=\"list-inline-item\">\n            <a href=\"#\">\n              <i class=\"fab fa-facebook-f\"></i>\n            </a>\n          </li>\n          <li class=\"list-inline-item\">\n            <a href=\"#\">\n              <i class=\"fab fa-linkedin-in\"></i>\n            </a>\n          </li>\n        </ul>\n      </div>\n      <div class=\"col-md-4\">\n        <ul class=\"list-inline quicklinks\">\n          <li class=\"list-inline-item\">\n            <a href=\"#\">Privacy Policy</a>\n          </li>\n          <li class=\"list-inline-item\">\n            <a href=\"#\">Terms of Use</a>\n          </li>\n        </ul>\n      </div>\n    </div>\n  </div>\n</footer>\n\n<router-outlet></router-outlet>"
 
 /***/ }),
 
@@ -105,24 +105,59 @@ var AppComponent = /** @class */ (function () {
         });
     }
     AppComponent.prototype.search = function (form) {
-        this.getCPFOrCNPJ(form.cpfcnpj);
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.getCPFOrCNPJ(form.cpfcnpj)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     AppComponent.prototype.getCPFOrCNPJ = function (cpfcnpj) {
-        var _this = this;
-        try {
-            this.searchService.getCPFOrCNPJ(cpfcnpj).subscribe(function (response) {
-                if (!response || response.status === false) {
-                    throw new Error('Data empty');
+        return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](this, void 0, void 0, function () {
+            var cpfOrCnpj, error_1;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.error = undefined;
+                        this.cpf = undefined;
+                        _a.label = 1;
+                    case 1:
+                        _a.trys.push([1, 3, , 4]);
+                        return [4 /*yield*/, this.searchService.getCPFOrCNPJ(cpfcnpj).toPromise()];
+                    case 2:
+                        cpfOrCnpj = _a.sent();
+                        if (!cpfOrCnpj || cpfOrCnpj.status === false) {
+                            throw new Error(cpfOrCnpj.data.error);
+                        }
+                        else {
+                            if (cpfOrCnpj.data.cpf) {
+                                this.cpf = cpfOrCnpj.data;
+                                this.goto('searchcpf');
+                            }
+                        }
+                        return [3 /*break*/, 4];
+                    case 3:
+                        error_1 = _a.sent();
+                        console.log('[ERROR 001] ', error_1);
+                        this.error = error_1;
+                        this.goto('searcherror');
+                        return [3 /*break*/, 4];
+                    case 4: return [2 /*return*/];
                 }
-                _this.cpf = response.data;
-                console.log(_this.cpf);
-            }, function (error) {
-                throw new Error('Not Connection CPFAgora');
             });
-        }
-        catch (error) {
-            console.log('[ERROR 001] ', error);
-        }
+        });
+    };
+    AppComponent.prototype.goto = function (hashtag) {
+        var link = document.createElement('a');
+        link.setAttribute('class', 'nav-link js-scroll-trigger');
+        link.href = '#' + hashtag;
+        setTimeout(function () {
+            link.click();
+        }, 100);
     };
     Object.defineProperty(AppComponent.prototype, "cpfcnpj", {
         get: function () { return this.searchCpfCnpj.get('cpfcnpj'); },
