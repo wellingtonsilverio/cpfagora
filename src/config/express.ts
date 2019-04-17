@@ -6,7 +6,8 @@ import * as dotenvExpand from "dotenv-expand";
 
 export const config = (app: Express) => {
 	// Configure .env with private information
-	dotenvExpand(require("dotenv").config());
+	// dotenvExpand(require("dotenv").config());
+	require("dotenv").config();
 	// Compress the request into GZIP reducing loading time
 	app.use(compression());
 	// Mount json form parser
