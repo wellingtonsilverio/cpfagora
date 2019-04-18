@@ -41,7 +41,7 @@ const getCPF = async (res: any, cpf: string, _user: any) => {
                 } catch (error) {
                     errorResponse(res, CONTROLLER, 3, error);
                 }
-            } else return failureResponse(res, CONTROLLER, 7, { error: "Não temos dados desse CPF." });
+            } else return failureResponse(res, CONTROLLER, 7, { error: "Não temos dados desse CPF disponível na conta Free." });
         }
     } catch (error) {
         errorResponse(res, CONTROLLER, 1, error);
@@ -62,13 +62,14 @@ const getUserByIdAndSaveCpf = async (res: any, _user: string, cpf: string) => {
                 if (error) return errorResponse(res, CONTROLLER, 5, error);
 
                 const data = await CPFModel.create(cpfcnpj);
+
                 return sucessResponse(res, data);
             });
         } else return failureResponse(res, CONTROLLER, 8, { error: "Créditos Insuficientes." });
     }
 };
 
-const getCPFCNPJKeyByScore = async () => {
+export const getCPFCNPJKeyByScore = async () => {
     const millisegInDay = (24 * 60 * 60 * 1000);
     const keys: ICPFCNPJKey[] = await CPFCNPJKeyModel.find();
 
@@ -90,7 +91,7 @@ const getCPFCNPJKeyByScore = async () => {
     return bestKey.key;
 };
 
-const getCPFofCPFCNPJ = (res: any, CPFCNPJ_KEY: any, cpf: string, _user: string, callback: any) => {
+export const getCPFofCPFCNPJ = (res: any, CPFCNPJ_KEY: any, cpf: string, _user: string, callback: any) => {
     const url = `${process.env.CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`;
     request({
         url: url,
@@ -145,7 +146,7 @@ const formatCPFCNPJ = (cpfcnpj: any) => {
     return cpfcnpj;
 };
 
-const getCNPJ = async (res: any, cnpj: string) => {
+export const getCNPJ = async (res: any, cnpj: string) => {
     try {
         const _cnpj: any = await CNPJModel.findOne({ cnpj: cnpj });
 

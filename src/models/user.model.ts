@@ -7,6 +7,14 @@ const UserSchema = new Schema(
             type: String,
             required: true
         },
+        ipAddress: {
+            type: String,
+            required: true
+        },
+        activitiesAt: {
+            type: Date,
+            required: true
+        },
         balance: {
             type: Number,
             required: false,
