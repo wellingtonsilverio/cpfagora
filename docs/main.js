@@ -255,8 +255,8 @@ __webpack_require__.r(__webpack_exports__);
 var SearchService = /** @class */ (function () {
     function SearchService(http) {
         this.http = http;
-        // API_URL = 'https://cpfagora-api.herokuapp.com';
-        this.API_URL = 'http://localhost:3000';
+        this.API_URL = 'https://cpfagora-api.herokuapp.com';
+        // API_URL = 'http://localhost:3000';
         this.httpOptions = {
             headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpHeaders"]({
                 'Content-Type': 'application/json'
