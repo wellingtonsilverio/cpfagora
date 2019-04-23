@@ -22,7 +22,9 @@ const checkCpfOrCnpj = async (res: any, cpfcnpj: string, _user: string) => {
     if (cpf = await validarCPF(cpfcnpj)) {
         await getCPF(res, cpf, _user);
     } else if (cnpj = await validarCNPJ(cpfcnpj)) {
-        await getCNPJ(res, cnpj);
+        const _cnpj = await getCNPJ(res, cnpj);
+
+        sucessResponse(res, _cnpj);
     } else {
         failureResponse(res, CONTROLLER, 6, { error: "CPF/CNPJ invalido." });
     }
@@ -151,13 +153,12 @@ export const getCNPJ = async (res: any, cnpj: string) => {
         const _cnpj: any = await CNPJModel.findOne({ cnpj: cnpj });
 
         if (_cnpj) {
-            return sucessResponse(res, _cnpj);
+            return _cnpj;
         } else {
             getCNPJofReceitaws(cnpj, async (error: any, receitaws: any) => {
                 if (error) return errorResponse(res, CONTROLLER, 4, error);
 
-                const data = await CNPJModel.create(receitaws);
-                return sucessResponse(res, data);
+                return await CNPJModel.create(receitaws);
             });
         }
     } catch (error) {

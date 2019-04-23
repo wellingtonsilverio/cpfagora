@@ -48,9 +48,17 @@ const checkCpfOrCnpj = async (res: any, cpfcnpj: string, email: string, ipAddres
     let cnpj: string;
 
     if (cpf = await validarCPF(cpfcnpj)) {
-        await getCPF(res, cpf, email, ipAddress);
+        const _cpf = await getCPF(res, cpf, email, ipAddress);
+
+        await updateActivitiesAt(email, ipAddress);
+
+        sucessResponse(res, _cpf);
     } else if (cnpj = await validarCNPJ(cpfcnpj)) {
-        await getCNPJ(res, cnpj);
+        const _cnpj = await getCNPJ(res, cnpj);
+
+        await updateActivitiesAt(email, ipAddress);
+
+        sucessResponse(res, _cnpj);
     } else {
         failureResponse(res, CONTROLLER, 1, { error: "CPF/CNPJ invalido." });
     }
@@ -61,20 +69,14 @@ const getCPF = async (res: any, cpf: string, email: string, ipAddress: string) =
         const _cpf: any = await CPFModel.findOne({ cpf: cpf });
 
         if (_cpf) {
-            await updateActivitiesAt(email, ipAddress);
-
-            sucessResponse(res, _cpf);
+            return _cpf;
         } else {
             const CPFCNPJKey = await getCPFCNPJKeyByScore();
 
             getCPFofCPFCNPJ(res, CPFCNPJKey, cpf, null, async (error: any, cpfcnpj: any) => {
                 if (error) return errorResponse(res, CONTROLLER, 5, error);
 
-                const data = await CPFModel.create(cpfcnpj);
-
-                await updateActivitiesAt(email, ipAddress);
-
-                return sucessResponse(res, data);
+                return await CPFModel.create(cpfcnpj);
             });
         }
     } catch (error) {
