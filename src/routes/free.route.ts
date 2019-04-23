@@ -31,7 +31,7 @@ const checkFreeCpfOrCnpj = async (res: any, cpfcnpj: string, email: string, ip: 
         user = await UserModel.create({
             email,
             ipAddress: ip.clientIp,
-            activitiesAt: moment().toDate(),
+            activitiesAt: moment().add(-2, 'days').toDate(),
             balance: 0
         });
     }
