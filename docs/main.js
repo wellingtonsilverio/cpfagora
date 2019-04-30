@@ -130,10 +130,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
-/* harmony import */ var _footer_footer_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./footer/footer.component */ "./src/app/footer/footer.component.ts");
-/* harmony import */ var _menu_menu_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./menu/menu.component */ "./src/app/menu/menu.component.ts");
-/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _footer_footer_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./footer/footer.component */ "./src/app/footer/footer.component.ts");
+/* harmony import */ var _menu_menu_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./menu/menu.component */ "./src/app/menu/menu.component.ts");
+/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var ng_hcaptcha__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ng-hcaptcha */ "./node_modules/ng-hcaptcha/fesm5/ng-hcaptcha.js");
 
 
 
@@ -144,6 +145,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+// import { AdsenseModule } from 'ng2-adsense';
 
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -152,9 +155,9 @@ var AppModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
                 _app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"],
-                _footer_footer_component__WEBPACK_IMPORTED_MODULE_8__["FooterComponent"],
-                _menu_menu_component__WEBPACK_IMPORTED_MODULE_9__["MenuComponent"],
-                _home_home_component__WEBPACK_IMPORTED_MODULE_10__["HomeComponent"]
+                _footer_footer_component__WEBPACK_IMPORTED_MODULE_7__["FooterComponent"],
+                _menu_menu_component__WEBPACK_IMPORTED_MODULE_8__["MenuComponent"],
+                _home_home_component__WEBPACK_IMPORTED_MODULE_9__["HomeComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
@@ -162,7 +165,10 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_5__["FormsModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_5__["ReactiveFormsModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
-                ngx_spinner__WEBPACK_IMPORTED_MODULE_7__["NgxSpinnerModule"]
+                ngx_spinner__WEBPACK_IMPORTED_MODULE_10__["NgxSpinnerModule"],
+                ng_hcaptcha__WEBPACK_IMPORTED_MODULE_11__["NgHcaptchaModule"].forRoot({
+                    siteKey: '9df504e5-b11a-48ee-99a6-7354851c911d'
+                }),
             ],
             providers: [],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_4__["AppComponent"]]
@@ -249,7 +255,7 @@ module.exports = "\n\n#search .error-alert{\n    font-size: 8px;\n    line-heigh
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Header -->\n<header class=\"masthead\" id=\"search\">\n  <div class=\"container\">\n    <form [formGroup]=\"searchCpfCnpj\" novalidate (ngSubmit)=\"search(searchCpfCnpj.value)\" class=\"intro-text\">\n      <div class=\"intro-lead-in\">Pesquise Agora pelo CPF</div>\n      <div class=\"input-cpfcnpj\">\n        <input matInput type=\"text\" formControlName=\"cpfcnpj\" placeholder=\"CPF/CNPJ\">\n      </div>\n      <div class=\"input-cpfcnpj\">\n        <input matInput type=\"text\" formControlName=\"email\" placeholder=\"E-mail Pessoal\">\n      </div>\n      <!-- <div *ngIf=\"cpfcnpj.getError('required')\" class=\"error-alert\">\n        CPF/CNPJ: Campo necessário\n      </div>\n      <div *ngIf=\"cpfcnpj.getError('minlength')\" class=\"error-alert\">\n        CPF/CNPJ: É necessário mínimo de 8 caracteres\n      </div>\n      <div *ngIf=\"email.getError('required')\" class=\"error-alert\">\n        E-mail: Campo necessario\n      </div>\n      <div *ngIf=\"email.getError('email')\" class=\"error-alert\">\n        E-mail: Não é um e-mail valido\n      </div> -->\n      <input type=\"submit\" class=\"btn btn-primary btn-xl text-uppercase js-scroll-trigger\"\n        [disabled]=\"!searchCpfCnpj.valid\" value=\"Consultar\">\n    </form>\n  </div>\n</header>\n\n<!-- SEARCH: RESPONSE CPF -->\n<section class=\"bg-light\" *ngIf=\"cpf\" id=\"searchcpf\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cpf.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>CPF</h4>\n          <p class=\"text-muted\">{{ cpf.cpf }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Nacimento</h4>\n          <p class=\"text-muted\">{{ cpf.nascimento | date:'dd/MM/yyyy' }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Situação na receita</h4>\n          <p class=\"text-muted\">{{ (cpf.status == 1) ? 'Regular' : 'Irregular' }}</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cpf.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: RESPONSE CNPJ -->\n<section class=\"bg-light\" *ngIf=\"cnpj\" id=\"searchcnpj\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cnpj.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Telefone / E-mail</h4>\n          <p class=\"text-muted\">{{ cnpj.telefone }} / {{ cnpj.email }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Abertura</h4>\n          <p class=\"text-muted\">{{ cnpj.abertura | date:'dd/MM/yyyy' }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Situação</h4>\n          <p class=\"text-muted\">{{ cnpj.situacao }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Endereço</h4>\n          <p class=\"text-muted\">{{ cnpj.logradouro }}, {{ cnpj.bairro }}, {{ cnpj.numero }}{{ (cnpj.complemento) ? ' ('+cnpj.complemento+')' : '' }} - {{ cnpj.municipio }}/{{ cnpj.uf }}- {{ cnpj.cep }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Atividade Principal</h4>\n          <p class=\"text-muted\" *ngIf=\"!cnpj.atividade_principal\">Não existe</p>\n          <p class=\"text-muted\" *ngFor=\"let atP of cnpj.atividade_principal\">({{ atP.code }}) {{ atP.name }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Atividade Secundarias</h4>\n          <p class=\"text-muted\" *ngIf=\"!cnpj.atividades_secundarias\">Não existe</p>\n          <p class=\"text-muted\" *ngFor=\"let atS of cnpj.atividades_secundarias\">({{ atS.code }}) {{ atS.name }}</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cnpj.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: ERROR -->\n<section class=\"bg-light\" id=\"team\" *ngIf=\"error\" id=\"searcherror\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">A consulta não retornou resultado</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          {{ error }}\n        </p>\n      </div>\n    </div>\n  </div>\n</section>"
+module.exports = "<!-- Header -->\n<header class=\"masthead\" id=\"search\">\n  <div class=\"container\">\n    <form [formGroup]=\"searchCpfCnpj\" novalidate (ngSubmit)=\"search(searchCpfCnpj.value)\" class=\"intro-text\">\n      <div class=\"intro-lead-in\">Pesquise Agora pelo CPF</div>\n      <div class=\"input-cpfcnpj\">\n        <input matInput type=\"text\" formControlName=\"cpfcnpj\" placeholder=\"CPF/CNPJ\">\n      </div>\n      <div class=\"input-cpfcnpj\">\n        <input matInput type=\"text\" formControlName=\"email\" placeholder=\"E-mail Pessoal\">\n      </div>\n      <!-- <div *ngIf=\"cpfcnpj.getError('required')\" class=\"error-alert\">\n        CPF/CNPJ: Campo necessário\n      </div>\n      <div *ngIf=\"cpfcnpj.getError('minlength')\" class=\"error-alert\">\n        CPF/CNPJ: É necessário mínimo de 8 caracteres\n      </div>\n      <div *ngIf=\"email.getError('required')\" class=\"error-alert\">\n        E-mail: Campo necessario\n      </div>\n      <div *ngIf=\"email.getError('email')\" class=\"error-alert\">\n        E-mail: Não é um e-mail valido\n      </div> -->\n      <ng-hcaptcha formControlName=\"captcha\" *ngIf=\"!captcha.valid\"></ng-hcaptcha>\n      <input type=\"submit\" class=\"btn btn-primary btn-xl text-uppercase js-scroll-trigger\"\n        [disabled]=\"!searchCpfCnpj.valid\" value=\"Consultar\" *ngIf=\"captcha.valid\">\n    </form>\n  </div>\n</header>\n\n<!-- SEARCH: RESPONSE CPF -->\n<section class=\"bg-light\" *ngIf=\"cpf\" id=\"searchcpf\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cpf.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>CPF</h4>\n          <p class=\"text-muted\">{{ cpf.cpf }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Nacimento</h4>\n          <p class=\"text-muted\">{{ cpf.nascimento | date:'dd/MM/yyyy' }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Situação na receita</h4>\n          <p class=\"text-muted\">{{ (cpf.status == 1) ? 'Regular' : 'Irregular' }}</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cpf.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: RESPONSE CNPJ -->\n<section class=\"bg-light\" *ngIf=\"cnpj\" id=\"searchcnpj\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cnpj.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Telefone / E-mail</h4>\n          <p class=\"text-muted\">{{ cnpj.telefone }} / {{ cnpj.email }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Abertura</h4>\n          <p class=\"text-muted\">{{ cnpj.abertura | date:'dd/MM/yyyy' }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Situação</h4>\n          <p class=\"text-muted\">{{ cnpj.situacao }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Endereço</h4>\n          <p class=\"text-muted\">{{ cnpj.logradouro }}, {{ cnpj.bairro }}, {{ cnpj.numero }}{{ (cnpj.complemento) ? ' ('+cnpj.complemento+')' : '' }} - {{ cnpj.municipio }}/{{ cnpj.uf }}- {{ cnpj.cep }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Atividade Principal</h4>\n          <p class=\"text-muted\" *ngIf=\"!cnpj.atividade_principal\">Não existe</p>\n          <p class=\"text-muted\" *ngFor=\"let atP of cnpj.atividade_principal\">({{ atP.code }}) {{ atP.name }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Atividade Secundarias</h4>\n          <p class=\"text-muted\" *ngIf=\"!cnpj.atividades_secundarias\">Não existe</p>\n          <p class=\"text-muted\" *ngFor=\"let atS of cnpj.atividades_secundarias\">({{ atS.code }}) {{ atS.name }}</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cnpj.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: ERROR -->\n<section class=\"bg-light\" id=\"team\" *ngIf=\"error\" id=\"searcherror\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">A consulta não retornou resultado</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          {{ error }}\n        </p>\n      </div>\n    </div>\n  </div>\n</section>"
 
 /***/ }),
 
@@ -280,7 +286,8 @@ var HomeComponent = /** @class */ (function () {
         this.spinner = spinner;
         this.searchCpfCnpj = fb.group({
             cpfcnpj: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(8)]],
-            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].email]]
+            email: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].email]],
+            captcha: ['', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
         });
     }
     HomeComponent.prototype.ngOnInit = function () {
@@ -357,6 +364,11 @@ var HomeComponent = /** @class */ (function () {
     });
     Object.defineProperty(HomeComponent.prototype, "email", {
         get: function () { return this.searchCpfCnpj.get('email'); },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(HomeComponent.prototype, "captcha", {
+        get: function () { return this.searchCpfCnpj.get('captcha'); },
         enumerable: true,
         configurable: true
     });

@@ -76372,6 +76372,351 @@ var VERSION = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["Version"]('7.2.14'
 
 /***/ }),
 
+/***/ "./node_modules/ng-hcaptcha/fesm5/ng-hcaptcha.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/ng-hcaptcha/fesm5/ng-hcaptcha.js ***!
+  \*******************************************************/
+/*! exports provided: CAPTCHA_CONFIG, NgHcaptchaComponent, NgHcaptchaModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CAPTCHA_CONFIG", function() { return CAPTCHA_CONFIG; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgHcaptchaComponent", function() { return NgHcaptchaComponent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NgHcaptchaModule", function() { return NgHcaptchaModule; });
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+/** @type {?} */
+var CAPTCHA_CONFIG = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["InjectionToken"]('CAPTCHA_CONFIG');
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var NgHcaptchaComponent = /** @class */ (function () {
+    function NgHcaptchaComponent(config, zone) {
+        this.config = config;
+        this.zone = zone;
+        this.verify = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.expired = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.error = new _angular_core__WEBPACK_IMPORTED_MODULE_2__["EventEmitter"]();
+        this.onChange = function () { };
+        this.onTouched = function () { };
+    }
+    // Initialization
+    // Initialization
+    /**
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.ngOnInit = 
+    // Initialization
+    /**
+     * @return {?}
+     */
+    function () {
+        var _this = this;
+        // Load the hCaptcha script
+        this.loadHcaptcha().subscribe(function () {
+            // Configure hCaptcha
+            /** @type {?} */
+            var options = {
+                sitekey: (_this.siteKey || _this.config.siteKey),
+                theme: _this.theme,
+                size: _this.size,
+                tabindex: _this.tabIndex,
+                callback: function (res) { _this.zone.run(function () { return _this.onVerify(res); }); },
+                'expired-callback': function (res) { _this.zone.run(function () { return _this.onExpired(res); }); },
+                'error-callback': function (err) { _this.zone.run(function () { return _this.onError(err); }); }
+            };
+            // Render hCaptcha using the defined options
+            window.hcaptcha.render(_this.captcha.nativeElement, options);
+            // Get widget ID
+            _this.widgetId = _this.findWidgetId();
+        }, function (error) {
+            console.error('Failed to load hCaptcha script', error);
+        });
+    };
+    // ControlValueAccessor implementation
+    // ControlValueAccessor implementation
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.writeValue = 
+    // ControlValueAccessor implementation
+    /**
+     * @param {?} value
+     * @return {?}
+     */
+    function (value) {
+        // Needs to be implemented to make the FormGroup's reset function work
+        this.value = value;
+        // Reset hCaptcha.
+        // We need to check whether window.hcaptcha is defined because
+        // writeValue(value: any) can be called before hCaptcha has been intialized.
+        if (!this.value && window.hcaptcha) {
+            window.hcaptcha.reset(this.widgetId);
+        }
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.registerOnChange = /**
+     * @param {?} fn
+     * @return {?}
+     */
+    function (fn) {
+        this.onChange = fn;
+    };
+    /**
+     * @param {?} fn
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.registerOnTouched = /**
+     * @param {?} fn
+     * @return {?}
+     */
+    function (fn) {
+        this.onTouched = fn;
+    };
+    Object.defineProperty(NgHcaptchaComponent.prototype, "value", {
+        get: /**
+         * @return {?}
+         */
+        function () {
+            return this._value;
+        },
+        set: /**
+         * @param {?} value
+         * @return {?}
+         */
+        function (value) {
+            this._value = value;
+            this.onChange(value);
+            this.onTouched();
+        },
+        enumerable: true,
+        configurable: true
+    });
+    // Internal functions
+    /**
+     * Is called when the verification was successful
+     * @param response The verification token
+     */
+    // Internal functions
+    /**
+     * Is called when the verification was successful
+     * @private
+     * @param {?} response The verification token
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.onVerify = 
+    // Internal functions
+    /**
+     * Is called when the verification was successful
+     * @private
+     * @param {?} response The verification token
+     * @return {?}
+     */
+    function (response) {
+        this.value = response;
+        this.verify.emit(response);
+    };
+    /**
+     * Is called when the verification has expired
+     * @param response The verification response
+     */
+    /**
+     * Is called when the verification has expired
+     * @private
+     * @param {?} response The verification response
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.onExpired = /**
+     * Is called when the verification has expired
+     * @private
+     * @param {?} response The verification response
+     * @return {?}
+     */
+    function (response) {
+        this.expired.emit(response);
+    };
+    /**
+     * Is called when an error occurs during the verification process
+     * @param error The error returned by hCaptcha
+     */
+    /**
+     * Is called when an error occurs during the verification process
+     * @private
+     * @param {?} error The error returned by hCaptcha
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.onError = /**
+     * Is called when an error occurs during the verification process
+     * @private
+     * @param {?} error The error returned by hCaptcha
+     * @return {?}
+     */
+    function (error) {
+        this.error.emit(error);
+    };
+    /**
+     * Load the hCaptcha script by appending a script element to the head element.
+     * The script won't be loaded again if it has already been loaded.
+     * Async and defer are set to prevent blocking the renderer while loading hCaptcha.
+     */
+    /**
+     * Load the hCaptcha script by appending a script element to the head element.
+     * The script won't be loaded again if it has already been loaded.
+     * Async and defer are set to prevent blocking the renderer while loading hCaptcha.
+     * @private
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.loadHcaptcha = /**
+     * Load the hCaptcha script by appending a script element to the head element.
+     * The script won't be loaded again if it has already been loaded.
+     * Async and defer are set to prevent blocking the renderer while loading hCaptcha.
+     * @private
+     * @return {?}
+     */
+    function () {
+        return new rxjs__WEBPACK_IMPORTED_MODULE_1__["Observable"](function (observer) {
+            // The hCaptcha script has already been loaded
+            if (typeof window.hcaptcha !== 'undefined') {
+                observer.next();
+                observer.complete();
+                return;
+            }
+            /** @type {?} */
+            var script = document.createElement('script');
+            script.src = 'https://hcaptcha.com/1/api.js?render=explicit';
+            script.async = true;
+            script.defer = true;
+            script.onerror = function (e) { return observer.error(e); };
+            script.onload = function () {
+                observer.next();
+                observer.complete();
+            };
+            document.head.appendChild(script);
+        });
+    };
+    /**
+     * Find the widget ID of the hCaptcha container.
+     */
+    /**
+     * Find the widget ID of the hCaptcha container.
+     * @private
+     * @return {?}
+     */
+    NgHcaptchaComponent.prototype.findWidgetId = /**
+     * Find the widget ID of the hCaptcha container.
+     * @private
+     * @return {?}
+     */
+    function () {
+        /** @type {?} */
+        var children = this.captcha.nativeElement.children;
+        for (var i = 0; i < children.length; i++) {
+            // Found correct children when the hcaptchaWidgetId dataset property is set
+            if (children[i] && children[i].dataset && children[i].dataset.hcaptchaWidgetId) {
+                return children[i].dataset.hcaptchaWidgetId;
+            }
+        }
+        return null;
+    };
+    NgHcaptchaComponent.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"], args: [{
+                    selector: 'ng-hcaptcha',
+                    template: '<div #captcha class="h-captcha"></div>',
+                    providers: [
+                        {
+                            provide: _angular_forms__WEBPACK_IMPORTED_MODULE_0__["NG_VALUE_ACCESSOR"],
+                            useExisting: Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["forwardRef"])(function () { return NgHcaptchaComponent; }),
+                            multi: true
+                        }
+                    ]
+                }] }
+    ];
+    /** @nocollapse */
+    NgHcaptchaComponent.ctorParameters = function () { return [
+        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Inject"], args: [CAPTCHA_CONFIG,] }] },
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["NgZone"] }
+    ]; };
+    NgHcaptchaComponent.propDecorators = {
+        siteKey: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        theme: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        size: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        tabIndex: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Input"] }],
+        captcha: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["ViewChild"], args: ['captcha',] }],
+        verify: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        expired: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }],
+        error: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["Output"] }]
+    };
+    return NgHcaptchaComponent;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+var NgHcaptchaModule = /** @class */ (function () {
+    function NgHcaptchaModule() {
+    }
+    /**
+     * @param {?=} config
+     * @return {?}
+     */
+    NgHcaptchaModule.forRoot = /**
+     * @param {?=} config
+     * @return {?}
+     */
+    function (config) {
+        return {
+            ngModule: NgHcaptchaModule,
+            providers: [
+                {
+                    provide: CAPTCHA_CONFIG,
+                    useValue: config || []
+                }
+            ]
+        };
+    };
+    NgHcaptchaModule.decorators = [
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"], args: [{
+                    imports: [],
+                    declarations: [NgHcaptchaComponent],
+                    exports: [NgHcaptchaComponent]
+                },] }
+    ];
+    return NgHcaptchaModule;
+}());
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+/**
+ * @fileoverview added by tsickle
+ * @suppress {checkTypes,extraRequire,missingReturn,unusedPrivateMembers,uselessCode} checked by tsc
+ */
+
+
+
+//# sourceMappingURL=ng-hcaptcha.js.map
+
+/***/ }),
+
 /***/ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js":
 /*!*******************************************************!*\
   !*** ./node_modules/ngx-spinner/fesm5/ngx-spinner.js ***!
