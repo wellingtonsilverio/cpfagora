@@ -14,7 +14,7 @@ const MAX_TIMEOUT = 4000;
 export const getFreeCPFOrCNPJ = async (req: any, res: any) => {
     const ip = await getIpAndLocationOfClient(req);
 
-    await checkFreeCpfOrCnpj(res, req.params.cpfcnpj, req.params.email, ip);
+    await checkFreeUser(res, req.params.cpfcnpj, req.params.email, ip);
 };
 
 const getIpAndLocationOfClient = async (req: any) => {
@@ -24,7 +24,7 @@ const getIpAndLocationOfClient = async (req: any) => {
     return { clientIp, ipLocation };
 }
 
-const checkFreeCpfOrCnpj = async (res: any, cpfcnpj: string, email: string, ip: any) => {
+const checkFreeUser = async (res: any, cpfcnpj: string, email: string, ip: any) => {
     let user = await UserModel.findOne({ $or: [{ email }, { ipAddress: ip.clientIp }] });
 
     if (!user) {
@@ -66,23 +66,32 @@ const checkCpfOrCnpj = async (res: any, cpfcnpj: string, email: string, ipAddres
 
 const getCPF = async (res: any, cpf: string, email: string, ipAddress: string) => {
     try {
-        const _cpf: any = await CPFModel.findOne({ cpf: cpf });
-
-        if (_cpf) {
-            return _cpf;
-        } else {
-            const CPFCNPJKey = await getCPFCNPJKeyByScore();
-
-            getCPFofCPFCNPJ(res, CPFCNPJKey, cpf, null, async (error: any, cpfcnpj: any) => {
-                if (error) return errorResponse(res, CONTROLLER, 5, error);
-
-                return await CPFModel.create(cpfcnpj);
-            });
-        }
+        return await getCPFOfDBOrAPI(res, cpf);
     } catch (error) {
         errorResponse(res, CONTROLLER, 1, error);
     }
 
+    
+};
+
+const getCPFOfDBOrAPI = (res: any, cpf: string) => {
+    return new Promise(async (resolve: any, reject: any) => {
+        const _cpf: any = await CPFModel.findOne({ cpf: cpf });
+
+        if (_cpf) {
+            resolve(_cpf);
+        } else {
+            const CPFCNPJKey = await getCPFCNPJKeyByScore();
+
+            getCPFofCPFCNPJ(res, CPFCNPJKey, cpf, null, async (error: any, cpfcnpj: any) => {
+                if (error) return reject(error);
+
+                const _cpf = await CPFModel.create(cpfcnpj);
+
+                resolve(_cpf);
+            });
+        }
+    });
 };
 
 const updateActivitiesAt = async (email: string, ipAddress: string) => {
