@@ -1,0 +1,9 @@
+{
+    "name": "CPF Agora",
+    "version": "1.0.0",
+    "description": "",
+    "apidoc": {
+      "title": "",
+      "url" : "https://api.github.com/v1"
+    }
+  }

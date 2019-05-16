@@ -8,7 +8,8 @@
     "build": "tsc",
     "build-watch": "tsc -w",
     "serve": "nodemon --watch src --exec npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "doc": "apidoc-swagger -i src/ -o doc/"
   },
   "repository": {
     "type": "git",

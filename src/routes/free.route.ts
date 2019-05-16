@@ -9,7 +9,6 @@ const requestIp = require('request-ip');
 const iplocation = require("iplocation").default;
 
 const CONTROLLER: number = 2;
-const MAX_TIMEOUT = 4000;
 
 export const getFreeCPFOrCNPJ = async (req: any, res: any) => {
     const ip = await getIpAndLocationOfClient(req);
@@ -17,7 +16,7 @@ export const getFreeCPFOrCNPJ = async (req: any, res: any) => {
     await checkFreeUser(res, req.params.cpfcnpj, req.params.email, ip);
 };
 
-const getIpAndLocationOfClient = async (req: any) => {
+export const getIpAndLocationOfClient = async (req: any) => {
     const clientIp = await requestIp.getClientIp(req);
     const ipLocation = await iplocation(clientIp, []);
 
