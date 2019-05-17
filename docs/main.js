@@ -98,7 +98,7 @@ module.exports = ".doc-card {\n    margin-top: 60px;\n}\n.doc-card h1{\n    marg
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<section class=\"bg-light\" id=\"plan\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">Documentação da API</h2>\n      </div>\n    </div>\n    <div class=\"row doc-card\">\n      <div class=\"col-12\">\n        <h1>Buscar pelo CPF ou CNPJ</h1>\n        <small>Retorna os dados da pessoal ou da empresa</small>\n        <div class=\"url\"><div class=\"type\">GET</div>/search/:token/:cpfoucnpj <small><a href=\"https://cpfagora-api.herokuapp.com/search/:token/:cpfoucnpj\" target=\"_blank\">https://cpfagora-api.herokuapp.com/search/:token/:cpfoucnpj</a></small></div>\n        <div class=\"field\">\n          <div class=\"row title\">\n            <div class=\"col-4\">Campo</div>\n            <div class=\"col-2\">Tipo</div>\n            <div class=\"col-6\">Descrição</div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-4\">token</div>\n            <div class=\"col-2\">String</div>\n            <div class=\"col-6\">Token secreto fornecido pela CPF Agora no e-mail</div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-4\">cpfoucnpj</div>\n            <div class=\"col-2\">String</div>\n            <div class=\"col-6\">CPF ou CNPJ para a busca dos dados (É melhor o envio desse campo sem pontos, barras ou hifens)</div>\n          </div>\n        </div>\n        <h3>Sucesso (200)</h3>\n        <h4>CPF</h4>\n        <div class=\"response\">\n          <div class=\"title\">HTTP/1.0 200 OK</div>\n          <div class=\"json\">\n            <pre>{{ jsonExemple.searchCPF | json }}</pre>\n          </div>\n        </div>\n        <h4>CNPJ</h4>\n        <div class=\"response\">\n          <div class=\"title\">HTTP/1.0 200 OK</div>\n          <div class=\"json\">\n            <pre>{{ jsonExemple.searchCNPJ | json }}</pre>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>"
+module.exports = "<section class=\"bg-light\" id=\"apidoc\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">Documentação da API</h2>\n      </div>\n    </div>\n    <div class=\"row doc-card\">\n      <div class=\"col-12\">\n        <h1>Buscar pelo CPF ou CNPJ</h1>\n        <small>Retorna os dados da pessoal ou da empresa</small>\n        <div class=\"url\"><div class=\"type\">GET</div>/search/:token/:cpfoucnpj <small><a href=\"https://cpfagora-api.herokuapp.com/search/:token/:cpfoucnpj\" target=\"_blank\">https://cpfagora-api.herokuapp.com/search/:token/:cpfoucnpj</a></small></div>\n        <div class=\"field\">\n          <div class=\"row title\">\n            <div class=\"col-4\">Campo</div>\n            <div class=\"col-2\">Tipo</div>\n            <div class=\"col-6\">Descrição</div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-4\">token</div>\n            <div class=\"col-2\">String</div>\n            <div class=\"col-6\">Token secreto fornecido pela CPF Agora no e-mail</div>\n          </div>\n          <div class=\"row\">\n            <div class=\"col-4\">cpfoucnpj</div>\n            <div class=\"col-2\">String</div>\n            <div class=\"col-6\">CPF ou CNPJ para a busca dos dados (É melhor o envio desse campo sem pontos, barras ou hifens)</div>\n          </div>\n        </div>\n        <h3>Sucesso (200)</h3>\n        <h4>CPF</h4>\n        <div class=\"response\">\n          <div class=\"title\">HTTP/1.0 200 OK</div>\n          <div class=\"json\">\n            <pre>{{ jsonExemple.searchCPF | json }}</pre>\n          </div>\n        </div>\n        <h4>CNPJ</h4>\n        <div class=\"response\">\n          <div class=\"title\">HTTP/1.0 200 OK</div>\n          <div class=\"json\">\n            <pre>{{ jsonExemple.searchCNPJ | json }}</pre>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</section>"
 
 /***/ }),
 
@@ -243,26 +243,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
 /* harmony import */ var _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser */ "./node_modules/@angular/platform-browser/fesm5/platform-browser.js");
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common_locales_pt__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/common/locales/pt */ "./node_modules/@angular/common/locales/pt.js");
-/* harmony import */ var _angular_common_locales_pt__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_angular_common_locales_pt__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
-/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _footer_footer_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./footer/footer.component */ "./src/app/footer/footer.component.ts");
-/* harmony import */ var _menu_menu_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./menu/menu.component */ "./src/app/menu/menu.component.ts");
-/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
-/* harmony import */ var _adblock_adblock_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./adblock/adblock.component */ "./src/app/adblock/adblock.component.ts");
-/* harmony import */ var _plan_plan_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./plan/plan.component */ "./src/app/plan/plan.component.ts");
-/* harmony import */ var _api_doc_api_doc_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./api-doc/api-doc.component */ "./src/app/api-doc/api-doc.component.ts");
-/* harmony import */ var _plan_hire_modal_plan_hire_modal_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./plan-hire-modal/plan-hire-modal.component */ "./src/app/plan-hire-modal/plan-hire-modal.component.ts");
-/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
-/* harmony import */ var ng_hcaptcha__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ng-hcaptcha */ "./node_modules/ng-hcaptcha/fesm5/ng-hcaptcha.js");
-/* harmony import */ var ngx_smart_modal__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ngx-smart-modal */ "./node_modules/ngx-smart-modal/esm5/ngx-smart-modal.js");
-/* harmony import */ var angular_archwizard__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! angular-archwizard */ "./node_modules/angular-archwizard/fesm5/angular-archwizard.js");
-/* harmony import */ var angular2_text_mask__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! angular2-text-mask */ "./node_modules/angular2-text-mask/dist/angular2TextMask.js");
-/* harmony import */ var angular2_text_mask__WEBPACK_IMPORTED_MODULE_20___default = /*#__PURE__*/__webpack_require__.n(angular2_text_mask__WEBPACK_IMPORTED_MODULE_20__);
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _angular_common_locales_pt__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common/locales/pt */ "./node_modules/@angular/common/locales/pt.js");
+/* harmony import */ var _angular_common_locales_pt__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_angular_common_locales_pt__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _footer_footer_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./footer/footer.component */ "./src/app/footer/footer.component.ts");
+/* harmony import */ var _menu_menu_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./menu/menu.component */ "./src/app/menu/menu.component.ts");
+/* harmony import */ var _home_home_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./home/home.component */ "./src/app/home/home.component.ts");
+/* harmony import */ var _adblock_adblock_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./adblock/adblock.component */ "./src/app/adblock/adblock.component.ts");
+/* harmony import */ var _plan_plan_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./plan/plan.component */ "./src/app/plan/plan.component.ts");
+/* harmony import */ var _api_doc_api_doc_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./api-doc/api-doc.component */ "./src/app/api-doc/api-doc.component.ts");
+/* harmony import */ var _plan_hire_modal_plan_hire_modal_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./plan-hire-modal/plan-hire-modal.component */ "./src/app/plan-hire-modal/plan-hire-modal.component.ts");
+/* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
+/* harmony import */ var ng_hcaptcha__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ng-hcaptcha */ "./node_modules/ng-hcaptcha/fesm5/ng-hcaptcha.js");
+/* harmony import */ var ngx_smart_modal__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ngx-smart-modal */ "./node_modules/ngx-smart-modal/esm5/ngx-smart-modal.js");
+/* harmony import */ var angular_archwizard__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! angular-archwizard */ "./node_modules/angular-archwizard/fesm5/angular-archwizard.js");
+/* harmony import */ var angular2_text_mask__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! angular2-text-mask */ "./node_modules/angular2-text-mask/dist/angular2TextMask.js");
+/* harmony import */ var angular2_text_mask__WEBPACK_IMPORTED_MODULE_21___default = /*#__PURE__*/__webpack_require__.n(angular2_text_mask__WEBPACK_IMPORTED_MODULE_21__);
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
 
 
 
@@ -284,40 +286,44 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-Object(_angular_common__WEBPACK_IMPORTED_MODULE_7__["registerLocaleData"])(_angular_common_locales_pt__WEBPACK_IMPORTED_MODULE_3___default.a);
+
+
+Object(_angular_common__WEBPACK_IMPORTED_MODULE_8__["registerLocaleData"])(_angular_common_locales_pt__WEBPACK_IMPORTED_MODULE_4___default.a);
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["NgModule"])({
             declarations: [
-                _app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"],
-                _footer_footer_component__WEBPACK_IMPORTED_MODULE_9__["FooterComponent"],
-                _menu_menu_component__WEBPACK_IMPORTED_MODULE_10__["MenuComponent"],
-                _home_home_component__WEBPACK_IMPORTED_MODULE_11__["HomeComponent"],
-                _adblock_adblock_component__WEBPACK_IMPORTED_MODULE_12__["AdblockComponent"],
-                _plan_plan_component__WEBPACK_IMPORTED_MODULE_13__["PlanComponent"],
-                _plan_hire_modal_plan_hire_modal_component__WEBPACK_IMPORTED_MODULE_15__["PlanHireModalComponent"],
-                _api_doc_api_doc_component__WEBPACK_IMPORTED_MODULE_14__["ApiDocComponent"]
+                _app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"],
+                _footer_footer_component__WEBPACK_IMPORTED_MODULE_10__["FooterComponent"],
+                _menu_menu_component__WEBPACK_IMPORTED_MODULE_11__["MenuComponent"],
+                _home_home_component__WEBPACK_IMPORTED_MODULE_12__["HomeComponent"],
+                _adblock_adblock_component__WEBPACK_IMPORTED_MODULE_13__["AdblockComponent"],
+                _plan_plan_component__WEBPACK_IMPORTED_MODULE_14__["PlanComponent"],
+                _plan_hire_modal_plan_hire_modal_component__WEBPACK_IMPORTED_MODULE_16__["PlanHireModalComponent"],
+                _api_doc_api_doc_component__WEBPACK_IMPORTED_MODULE_15__["ApiDocComponent"]
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_1__["BrowserModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClientModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormsModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_6__["ReactiveFormsModule"],
-                _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
-                ngx_spinner__WEBPACK_IMPORTED_MODULE_16__["NgxSpinnerModule"],
-                angular_archwizard__WEBPACK_IMPORTED_MODULE_19__["ArchwizardModule"],
-                ngx_smart_modal__WEBPACK_IMPORTED_MODULE_18__["NgxSmartModalModule"].forRoot(),
-                ng_hcaptcha__WEBPACK_IMPORTED_MODULE_17__["NgHcaptchaModule"].forRoot({
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_9__["HttpClientModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_7__["ReactiveFormsModule"],
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_5__["AppRoutingModule"],
+                ngx_spinner__WEBPACK_IMPORTED_MODULE_17__["NgxSpinnerModule"],
+                angular_archwizard__WEBPACK_IMPORTED_MODULE_20__["ArchwizardModule"],
+                ngx_smart_modal__WEBPACK_IMPORTED_MODULE_19__["NgxSmartModalModule"].forRoot(),
+                ng_hcaptcha__WEBPACK_IMPORTED_MODULE_18__["NgHcaptchaModule"].forRoot({
                     siteKey: '9df504e5-b11a-48ee-99a6-7354851c911d'
                 }),
-                angular2_text_mask__WEBPACK_IMPORTED_MODULE_20__["TextMaskModule"]
+                angular2_text_mask__WEBPACK_IMPORTED_MODULE_21__["TextMaskModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_3__["BrowserAnimationsModule"],
+                ngx_toastr__WEBPACK_IMPORTED_MODULE_22__["ToastrModule"].forRoot() // ToastrModule added
             ],
             providers: [
                 { provide: _angular_core__WEBPACK_IMPORTED_MODULE_2__["LOCALE_ID"], useValue: 'pt-BR' }
             ],
-            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
+            bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_6__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
@@ -401,7 +407,7 @@ module.exports = "\n\n#search .error-alert{\n    font-size: 8px;\n    line-heigh
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- Header -->\n<header class=\"masthead\" id=\"search\">\n  <div class=\"container\">\n    <form [formGroup]=\"searchCpfCnpj\" novalidate (ngSubmit)=\"search(searchCpfCnpj.value)\" class=\"intro-text\">\n      <div class=\"intro-lead-in\">Pesquise Agora pelo CPF</div>\n      <div class=\"input-cpfcnpj\">\n        <input matInput type=\"text\" formControlName=\"cpfcnpj\" placeholder=\"CPF/CNPJ\">\n      </div>\n      <div class=\"input-cpfcnpj\">\n        <input matInput type=\"text\" formControlName=\"email\" placeholder=\"E-mail Pessoal\">\n      </div>\n      <!-- <div *ngIf=\"cpfcnpj.getError('required')\" class=\"error-alert\">\n        CPF/CNPJ: Campo necessário\n      </div>\n      <div *ngIf=\"cpfcnpj.getError('minlength')\" class=\"error-alert\">\n        CPF/CNPJ: É necessário mínimo de 8 caracteres\n      </div>\n      <div *ngIf=\"email.getError('required')\" class=\"error-alert\">\n        E-mail: Campo necessario\n      </div>\n      <div *ngIf=\"email.getError('email')\" class=\"error-alert\">\n        E-mail: Não é um e-mail valido\n      </div> -->\n      <ng-hcaptcha formControlName=\"captcha\" *ngIf=\"!captcha.valid\"></ng-hcaptcha>\n      <input type=\"submit\" class=\"btn btn-primary btn-xl text-uppercase js-scroll-trigger\"\n        [disabled]=\"!searchCpfCnpj.valid\" value=\"Consultar\" *ngIf=\"captcha.valid\">\n    </form>\n  </div>\n</header>\n\n<!-- SEARCH: RESPONSE CPF -->\n<section class=\"bg-light\" *ngIf=\"cpf\" id=\"searchcpf\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cpf.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>CPF</h4>\n          <p class=\"text-muted\">{{ cpf.cpf }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Nacimento</h4>\n          <p class=\"text-muted\">{{ cpf.nascimento | date:'dd/MM/yyyy' }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Situação na receita</h4>\n          <p class=\"text-muted\">{{ (cpf.status == 1) ? 'Regular' : 'Irregular' }}</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cpf.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: RESPONSE CNPJ -->\n<section class=\"bg-light\" *ngIf=\"cnpj\" id=\"searchcnpj\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cnpj.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Telefone / E-mail</h4>\n          <p class=\"text-muted\">{{ cnpj.telefone }} / {{ cnpj.email }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Abertura</h4>\n          <p class=\"text-muted\">{{ cnpj.abertura | date:'dd/MM/yyyy' }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Situação</h4>\n          <p class=\"text-muted\">{{ cnpj.situacao }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Endereço</h4>\n          <p class=\"text-muted\">{{ cnpj.logradouro }}, {{ cnpj.bairro }}, {{ cnpj.numero }}{{ (cnpj.complemento) ? ' ('+cnpj.complemento+')' : '' }} - {{ cnpj.municipio }}/{{ cnpj.uf }}- {{ cnpj.cep }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Atividade Principal</h4>\n          <p class=\"text-muted\" *ngIf=\"!cnpj.atividade_principal\">Não existe</p>\n          <p class=\"text-muted\" *ngFor=\"let atP of cnpj.atividade_principal\">({{ atP.code }}) {{ atP.name }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Atividade Secundarias</h4>\n          <p class=\"text-muted\" *ngIf=\"!cnpj.atividades_secundarias\">Não existe</p>\n          <p class=\"text-muted\" *ngFor=\"let atS of cnpj.atividades_secundarias\">({{ atS.code }}) {{ atS.name }}</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cnpj.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: ERROR -->\n<section class=\"bg-light\" id=\"team\" *ngIf=\"error\" id=\"searcherror\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">A consulta não retornou resultado</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          {{ error }}\n        </p>\n      </div>\n    </div>\n  </div>\n</section>"
+module.exports = "<!-- Header -->\n<header class=\"masthead\" id=\"search\">\n  <div class=\"container\">\n    <form [formGroup]=\"searchCpfCnpj\" novalidate (ngSubmit)=\"search(searchCpfCnpj.value)\" class=\"intro-text\">\n      <div class=\"intro-lead-in\">Pesquise Agora pelo CPF</div>\n      <div class=\"input-cpfcnpj\">\n        <input matInput type=\"text\" formControlName=\"cpfcnpj\" placeholder=\"CPF/CNPJ\">\n      </div>\n      <div class=\"input-cpfcnpj\">\n        <input matInput type=\"text\" formControlName=\"email\" placeholder=\"E-mail Pessoal\">\n      </div>\n      <!-- <div *ngIf=\"cpfcnpj.getError('required')\" class=\"error-alert\">\n        CPF/CNPJ: Campo necessário\n      </div>\n      <div *ngIf=\"cpfcnpj.getError('minlength')\" class=\"error-alert\">\n        CPF/CNPJ: É necessário mínimo de 8 caracteres\n      </div>\n      <div *ngIf=\"email.getError('required')\" class=\"error-alert\">\n        E-mail: Campo necessario\n      </div>\n      <div *ngIf=\"email.getError('email')\" class=\"error-alert\">\n        E-mail: Não é um e-mail valido\n      </div> -->\n      <ng-hcaptcha formControlName=\"captcha\" *ngIf=\"!captcha.valid\"></ng-hcaptcha>\n      <input type=\"submit\" class=\"btn btn-primary btn-xl text-uppercase js-scroll-trigger\"\n        [disabled]=\"!searchCpfCnpj.valid\" value=\"Consultar\" *ngIf=\"captcha.valid\">\n    </form>\n  </div>\n</header>\n\n<!-- SEARCH: RESPONSE CPF -->\n<section class=\"bg-light\" *ngIf=\"cpf\" id=\"searchcpf\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cpf.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>CPF</h4>\n          <p class=\"text-muted\">{{ cpf.cpf }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Nacimento</h4>\n          <p class=\"text-muted\">{{ cpf.nascimento | date:'dd/MM/yyyy' }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Situação na receita</h4>\n          <p class=\"text-muted\">{{ (cpf.status == 1) ? 'Regular' : 'Irregular' }}</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cpf.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: RESPONSE CNPJ -->\n<section class=\"bg-light\" *ngIf=\"cnpj\" id=\"searchcnpj\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">{{ cnpj.nome }}</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Telefone / E-mail</h4>\n          <p class=\"text-muted\">{{ cnpj.telefone }} / {{ cnpj.email }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Abertura</h4>\n          <p class=\"text-muted\">{{ cnpj.abertura | date:'dd/MM/yyyy' }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Situação</h4>\n          <p class=\"text-muted\">{{ cnpj.situacao }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Endereço</h4>\n          <p class=\"text-muted\">{{ cnpj.logradouro }}, {{ cnpj.bairro }}, {{ cnpj.numero }}{{ (cnpj.complemento) ? ' ('+cnpj.complemento+')' : '' }} - {{ cnpj.municipio }}/{{ cnpj.uf }}- {{ cnpj.cep }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Atividade Principal</h4>\n          <p class=\"text-muted\" *ngIf=\"!cnpj.atividade_principal\">Não existe</p>\n          <p class=\"text-muted\" *ngFor=\"let atP of cnpj.atividade_principal\">({{ atP.code }}) {{ atP.name }}</p>\n        </div>\n      </div>\n      <div class=\"col-sm-4\">\n        <div class=\"team-member\">\n          <h4>Atividade Secundarias</h4>\n          <p class=\"text-muted\" *ngIf=\"!cnpj.atividades_secundarias\">Não existe</p>\n          <p class=\"text-muted\" *ngFor=\"let atS of cnpj.atividades_secundarias\">({{ atS.code }}) {{ atS.name }}</p>\n        </div>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          Esses dados são reais e resgatados em {{ cnpj.createdAt | date:'dd/MM/yyyy' }}.\n        </p>\n      </div>\n    </div>\n  </div>\n</section>\n\n<!-- SEARCH: ERROR -->\n<section class=\"bg-light\" *ngIf=\"error\" id=\"searcherror\">\n  <div class=\"container\">\n    <div class=\"row\">\n      <div class=\"col-lg-12 text-center\">\n        <h2 class=\"section-heading text-uppercase\">A consulta não retornou resultado</h2>\n      </div>\n    </div>\n    <div class=\"row\">\n      <div class=\"col-lg-8 mx-auto text-center\">\n        <p class=\"large text-muted\">\n          {{ error }}\n        </p>\n      </div>\n    </div>\n  </div>\n</section>"
 
 /***/ }),
 
@@ -554,7 +560,7 @@ module.exports = "\n  \n  \n  #mainNav {\n    background-color: #29434e;\n  }\n 
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark fixed-top\" id=\"mainNav\" #mainNav>\n  <div class=\"container\">\n    <a class=\"navbar-brand js-scroll-trigger\"><img src=\"assets/img/logo.png\" alt=\"CPF agora\"></a>\n    <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\"\n      data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\"\n      aria-label=\"Toggle navigation\">\n      Menu\n      <i class=\"fas fa-bars\"></i>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\n      <ul class=\"navbar-nav text-uppercase ml-auto\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#search\">Buscar</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#plan\">Planos</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#doc\">Documentação</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#contact\">Contato</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</nav>"
+module.exports = "<nav class=\"navbar navbar-expand-lg navbar-dark fixed-top\" id=\"mainNav\" #mainNav>\n  <div class=\"container\">\n    <a class=\"navbar-brand js-scroll-trigger\"><img src=\"assets/img/logo.png\" alt=\"CPF agora\"></a>\n    <button class=\"navbar-toggler navbar-toggler-right\" type=\"button\" data-toggle=\"collapse\"\n      data-target=\"#navbarResponsive\" aria-controls=\"navbarResponsive\" aria-expanded=\"false\"\n      aria-label=\"Toggle navigation\">\n      Menu\n      <i class=\"fas fa-bars\"></i>\n    </button>\n    <div class=\"collapse navbar-collapse\" id=\"navbarResponsive\">\n      <ul class=\"navbar-nav text-uppercase ml-auto\">\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#search\">Buscar</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#plan\">Planos</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#apidoc\">Documentação</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link js-scroll-trigger\" href=\"#contact\">Contato</a>\n        </li>\n      </ul>\n    </div>\n  </div>\n</nav>"
 
 /***/ }),
 
@@ -653,16 +659,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
 /* harmony import */ var ngx_spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ngx-spinner */ "./node_modules/ngx-spinner/fesm5/ngx-spinner.js");
 /* harmony import */ var _search_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../search.service */ "./src/app/search.service.ts");
+/* harmony import */ var ngx_toastr__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ngx-toastr */ "./node_modules/ngx-toastr/fesm5/ngx-toastr.js");
+
 
 
 
 
 
 var PlanHireModalComponent = /** @class */ (function () {
-    function PlanHireModalComponent(fb, searchService, spinner) {
+    function PlanHireModalComponent(fb, searchService, spinner, toastr) {
         this.fb = fb;
         this.searchService = searchService;
         this.spinner = spinner;
+        this.toastr = toastr;
         this.requestPlan = fb.group({
             informations: fb.group({
                 cpfcnpj: ['', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].minLength(8)]],
@@ -715,6 +724,9 @@ var PlanHireModalComponent = /** @class */ (function () {
                         return [4 /*yield*/, this.searchService.saveForm(1, this.requestPlan.value).toPromise()];
                     case 2:
                         response = _a.sent();
+                        if (response.status == true) {
+                            this.toastr.success("Compra realizada com sucesso!", "Sua conta foi criada, enviaremos um e-mail em breve, muito obrigado.");
+                        }
                         console.log(response);
                         return [3 /*break*/, 4];
                     case 3:
@@ -807,7 +819,8 @@ var PlanHireModalComponent = /** @class */ (function () {
         }),
         tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormBuilder"],
             _search_service__WEBPACK_IMPORTED_MODULE_4__["SearchService"],
-            ngx_spinner__WEBPACK_IMPORTED_MODULE_3__["NgxSpinnerService"]])
+            ngx_spinner__WEBPACK_IMPORTED_MODULE_3__["NgxSpinnerService"],
+            ngx_toastr__WEBPACK_IMPORTED_MODULE_5__["ToastrService"]])
     ], PlanHireModalComponent);
     return PlanHireModalComponent;
 }());
