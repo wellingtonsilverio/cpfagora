@@ -1,43 +1,49 @@
 import { UserModel } from "../models/user.model";
+import { PlanModel } from "../models/plan.model";
 import { getIpAndLocationOfClient } from "./free.route";
 import moment = require("moment");
-// import { getCPFofCPFCNPJ, getCPFCNPJKeyByScore, getCNPJ } from "./search.route";
-// import { errorResponse, sucessResponse, failureResponse } from "../modules/responses";
-// import { CPFModel } from "../models/cpf.model";
-// import { validarCPF, validarCNPJ } from "../modules/functions/validate";
+import { errorResponse, sucessResponse, failureResponse } from "../modules/responses";
 
-// const requestIp = require('request-ip');
-// const iplocation = require("iplocation").default;
-
-// const CONTROLLER: number = 3;
+const CONTROLLER: number = 3;
 
 export const postBuyPlan = async (req: any, res: any) => {
     console.log(req.body);
 
-    const ip = await getIpAndLocationOfClient(req);
+    try {
+        const ip = await getIpAndLocationOfClient(req);
+
+        const email = req.body.form.informations.email;
+
+        let user = await UserModel.findOneAndUpdate({ $or: [{ email }, { ipAddress: ip.clientIp }] }, {
+            cpfcnpj: req.body.form.informations.cpfcnpj,
+            password: req.body.form.informations.senha,
+            describle: req.body.form.describles.describle
+        });
     
-    const user = await UserModel.create({
-        email: req.body.form.informations.email,
-        ipAddress: ip.clientIp,
-        activitiesAt: moment().add(-2, 'days').toDate(),
-        balance: 0,
-        cpfcnpj: req.body.form.informations.cpfcnpj,
-        nome: req.body.form.ninformations.ome,
-        senha: req.body.form.informations.senha,
-        nacimento: req.body.form.informations.nacimento,
-        fantasia: req.body.form.informations.fantasia,
-        atividade: req.body.form.informations.atividade,
-        describle: req.body.form.describles.describle,
-        paymentsDate: req.body.form.payments.date,
-    });
+        if (!user) {
+            user = await UserModel.create({
+                email,
+                ipAddress: ip.clientIp,
+                activitiesAt: moment().add(-2, 'days').toDate(),
+                balance: 0,
+                cpfcnpj: req.body.form.informations.cpfcnpj,
+                password: req.body.form.informations.senha,
+                describle: req.body.form.describles.describle
+            });
+        }
 
-    console.log(user);
+        console.log(user);
 
-    await PlanModel.create({
-        _user: user._id,
-        plan: req.body.form.plan,
-        date: req.body.form.payments.date,
-    });
+        const plan = await PlanModel.create({
+            _user: user._id,
+            plan: req.body.plan,
+            date: req.body.form.payments.date,
+        });
 
-    res.send({});
+        console.log(plan);
+
+        sucessResponse(res, { message: "Buy Plan success." });
+    } catch (error) {
+        errorResponse(res, CONTROLLER, 1, error);      
+    }
 };

@@ -19,6 +19,18 @@ const UserSchema = new Schema(
             type: Number,
             required: false,
             default: 0
+        },
+        cpfcnpj: {
+            type: String,
+            required: false
+        },
+        password: {
+            type: String,
+            required: false
+        },
+        describle: {
+            type: String,
+            required: false
         }
 	},
 	{ collection: 'users', timestamps: true }
