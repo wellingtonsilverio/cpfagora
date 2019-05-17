@@ -32,7 +32,7 @@ const checkCpfOrCnpj = async (res: any, cpfcnpj: string, _user: string) => {
 
 const getCPF = async (res: any, cpf: string, _user: any) => {
     try {
-        const _cpf: any = await CPFModel.findOne({ cpf: cpf });
+        const _cpf: any = await getFreeCPF(res, cpf,_user);
 
         if (_cpf) {
             sucessResponse(res, _cpf);
@@ -49,6 +49,26 @@ const getCPF = async (res: any, cpf: string, _user: any) => {
         errorResponse(res, CONTROLLER, 1, error);
     }
 };
+
+const getFreeCPF = async (res: any, cpf: string, _user: string) => {
+    const user: any = await UserModel.findOne({ _id: _user });
+
+    if (!user) {
+        return failureResponse(res, CONTROLLER, 9, { error: "Não temos dados desse Usuário." });
+    } else {
+        if (user.balance > 0) {
+            const CPFCNPJKey = await getCPFCNPJKeyByScore();
+
+            const data = await CPFModel.findOne({ cpf });
+
+            if (!data) return data;
+
+            await saveCPFCNPJCreditBalance(null, null, _user);
+
+            return sucessResponse(res, data);
+        } else return failureResponse(res, CONTROLLER, 9, { error: "Créditos Insuficientes." });
+    }
+}
 
 const getUserByIdAndSaveCpf = async (res: any, _user: string, cpf: string) => {
     const user: any = await UserModel.findOne({ _id: _user });
@@ -134,7 +154,7 @@ const nextRequestCPF = (cpf: string) => {
 };
 
 const saveCPFCNPJCreditBalance = async (cpfcnpj: string, balance: number, _user?: string) => {
-    await CPFCNPJKeyModel.findOneAndUpdate({ key: cpfcnpj }, { balance, accessedAt: moment().toDate() }).exec();
+    if (cpfcnpj) await CPFCNPJKeyModel.findOneAndUpdate({ key: cpfcnpj }, { balance, accessedAt: moment().toDate() }).exec();
     if (_user) await UserModel.findByIdAndUpdate(_user, { $inc: { "balance": -1 } }).exec();
 };
 
