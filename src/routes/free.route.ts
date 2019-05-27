@@ -82,13 +82,14 @@ const getCPFOfDBOrAPI = (res: any, cpf: string) => {
         } else {
             const CPFCNPJKey = await getCPFCNPJKeyByScore();
 
-            getCPFofCPFCNPJ(res, CPFCNPJKey, cpf, null, async (error: any, cpfcnpj: any) => {
-                if (error) return reject(error);
-
+            try {
+                const cpfcnpj = await getCPFofCPFCNPJ(res, CPFCNPJKey, cpf, null);
                 const _cpf = await CPFModel.create(cpfcnpj);
 
                 resolve(_cpf);
-            });
+            } catch (error) {
+                return reject(error);
+            }
         }
     });
 };

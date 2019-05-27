@@ -24,9 +24,9 @@ const checkCpfOrCnpj = async (res: any, cpfcnpj: string, _user: string) => {
     } else if (cnpj = await validarCNPJ(cpfcnpj)) {
         const _cnpj = await getCNPJ(res, cnpj);
 
-        sucessResponse(res, _cnpj);
+        return sucessResponse(res, _cnpj);
     } else {
-        failureResponse(res, CONTROLLER, 6, { error: "CPF/CNPJ invalido." });
+        return failureResponse(res, CONTROLLER, 6, { error: "CPF/CNPJ invalido." });
     }
 };
 
@@ -35,18 +35,18 @@ const getCPF = async (res: any, cpf: string, _user: any) => {
         const _cpf: any = await getFreeCPF(res, cpf,_user);
 
         if (_cpf) {
-            sucessResponse(res, _cpf);
+            return sucessResponse(res, _cpf);
         } else {
             if (_user) {
                 try {
                     await getUserByIdAndSaveCpf(res, _user, cpf);
                 } catch (error) {
-                    errorResponse(res, CONTROLLER, 3, error);
+                    return errorResponse(res, CONTROLLER, 3, error);
                 }
             } else return failureResponse(res, CONTROLLER, 7, { error: "Não temos dados desse CPF disponível na conta Free." });
         }
     } catch (error) {
-        errorResponse(res, CONTROLLER, 1, error);
+        return errorResponse(res, CONTROLLER, 1, error);
     }
 };
 
@@ -57,7 +57,7 @@ const getFreeCPF = async (res: any, cpf: string, _user: string) => {
         return failureResponse(res, CONTROLLER, 9, { error: "Não temos dados desse Usuário." });
     } else {
         if (user.balance > 0) {
-            const CPFCNPJKey = await getCPFCNPJKeyByScore();
+            await getCPFCNPJKeyByScore();
 
             const data = await CPFModel.findOne({ cpf });
 
@@ -77,16 +77,17 @@ const getUserByIdAndSaveCpf = async (res: any, _user: string, cpf: string) => {
         return failureResponse(res, CONTROLLER, 8, { error: "Não temos dados desse Usuário." });
     } else {
         if (user.balance > 0) {
-            const CPFCNPJKey = await getCPFCNPJKeyByScore();
+            try {
+                const CPFCNPJKey = await getCPFCNPJKeyByScore();
 
-            
-            getCPFofCPFCNPJ(res, CPFCNPJKey, cpf, _user, async (error: any, cpfcnpj: any) => {
-                if (error) return errorResponse(res, CONTROLLER, 5, error);
+                const cpfcnpj = await getCPFofCPFCNPJ(res, CPFCNPJKey, cpf, _user);
 
                 const data = await CPFModel.create(cpfcnpj);
 
                 return sucessResponse(res, data);
-            });
+            } catch (error) {
+                return errorResponse(res, CONTROLLER, 5, error);
+            }
         } else return failureResponse(res, CONTROLLER, 8, { error: "Créditos Insuficientes." });
     }
 };
@@ -113,39 +114,41 @@ export const getCPFCNPJKeyByScore = async () => {
     return bestKey.key;
 };
 
-export const getCPFofCPFCNPJ = (res: any, CPFCNPJ_KEY: any, cpf: string, _user: string, callback: any) => {
+export const getCPFofCPFCNPJ = (res: any, CPFCNPJ_KEY: any, cpf: string, _user: string) => {
     const url = `${process.env.CPFCNPJ_API}/${CPFCNPJ_KEY}/7/json/${cpf}`;
-    request({
-        url: url,
-        timeout: MAX_TIMEOUT
-    }, async (error: any, resp: any) => {
-        if (error) {
-            if (error.code == "ETIMEDOUT" || error.code == "ESOCKETTIMEDOUT") {
-                console.log("ETIMEDOUT");
-                nextRequestCPF(cpf);
-                callback(error, null); // Remover após implementar nextRequestCPF
-            } else {
-                console.log({ error });
-                callback(error, null);
-            }
-        } else if (resp && resp.statusCode == 200) {
-            const cpfcnpjResponse = JSON.parse(resp.body);
-            const cpfcnpj = {
-                ...cpfcnpjResponse,
-                cpf
-            };
-            
-            await saveCPFCNPJCreditBalance(CPFCNPJ_KEY, cpfcnpj.saldo, _user);
-
-            callback(null, formatCPFCNPJ(cpfcnpj));
-        } else if (resp && resp.statusCode == 402) {
-            await saveCPFCNPJCreditBalance(CPFCNPJ_KEY, 0);
-
-            await getUserByIdAndSaveCpf(res, _user, cpf);
-        } else callback({
-            statusCode: resp.statusCode,
-            error: "CPF não encontrado ou conexão com o DB falhou."
-        }, null);
+    return new Promise((resolve: any, reject: any) => {
+        request({
+            url: url,
+            timeout: MAX_TIMEOUT
+        }, async (error: any, resp: any) => {
+            if (error) {
+                if (error.code == "ETIMEDOUT" || error.code == "ESOCKETTIMEDOUT") {
+                    console.log("ETIMEDOUT");
+                    nextRequestCPF(cpf);
+                    reject(error); // Remover após implementar nextRequestCPF
+                } else {
+                    console.log({ error });
+                    reject(error);
+                }
+            } else if (resp && resp.statusCode == 200) {
+                const cpfcnpjResponse = JSON.parse(resp.body);
+                const cpfcnpj = {
+                    ...cpfcnpjResponse,
+                    cpf
+                };
+                
+                await saveCPFCNPJCreditBalance(CPFCNPJ_KEY, cpfcnpj.saldo, _user);
+    
+                resolve(formatCPFCNPJ(cpfcnpj));
+            } else if (resp && resp.statusCode == 402) {
+                await saveCPFCNPJCreditBalance(CPFCNPJ_KEY, 0);
+    
+                await getUserByIdAndSaveCpf(res, _user, cpf);
+            } else reject({
+                statusCode: resp.statusCode,
+                error: "CPF não encontrado ou conexão com o DB falhou."
+            });
+        });
     });
 };
 
@@ -175,37 +178,35 @@ export const getCNPJ = async (res: any, cnpj: string) => {
         if (_cnpj) {
             return _cnpj;
         } else {
-            getCNPJofReceitaws(cnpj, async (error: any, receitaws: any) => {
-                if (error) return errorResponse(res, CONTROLLER, 4, error);
+            const receitaws = await getCNPJofReceitaws(cnpj);
 
-                return await CNPJModel.create(receitaws);
-            });
+            return await CNPJModel.create(receitaws);
         }
     } catch (error) {
-        errorResponse(res, CONTROLLER, 2, error);
+        return errorResponse(res, CONTROLLER, 2, error);
     }
 };
 
-const getCNPJofReceitaws = (cnpj: string, callback: any) => {
-    request({
-        url: `${process.env.RECEITAWS_API}/${cnpj}`,
-        timeout: MAX_TIMEOUT
-    }, async (error: any, resp: any) => {
-        if (error) {
-            console.log({ error });
-            callback(error, null);
-        }
-        if (resp && resp.statusCode == 200) {
-            const receitaws = {
-                ...JSON.parse(resp.body),
-                cnpj
-            };
-
-            callback(null, await formatReceitaws(receitaws));
-        } else callback({
-            statusCode: resp.statusCode,
-            error: "CNPJ não encontrado ou conexão com o DB falhou."
-        }, null);
+const getCNPJofReceitaws = (cnpj: string) => {
+    return new Promise((resolve: any, reject: any) => {
+        request({
+            url: `${process.env.RECEITAWS_API}/${cnpj}`,
+            timeout: MAX_TIMEOUT
+        }, async (error: any, resp: any) => {
+            if (error) {
+                console.log({ error });
+                reject(error);
+            }
+            if (resp && resp.statusCode == 200) {
+                const receitaws = JSON.parse(resp.body);
+                receitaws.cnpj = cnpj;
+                
+                resolve(await formatReceitaws(receitaws));
+            } else reject({
+                statusCode: resp.statusCode,
+                error: "CNPJ não encontrado ou conexão com o DB falhou."
+            });
+        });
     });
 };
 
